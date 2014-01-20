@@ -14,17 +14,21 @@ import numpy as np
 X_train, y_train = load_svmlight_file("./data/dataset_3/train")
 
 X_test, y_test = load_svmlight_file("./data/dataset_3/test",n_features=X_train.shape[1])
-#X_val, y_val = load_svmlight_file("./data/dataset_3/validate")
+#X_val, y_val = load_svmlight_file("./data/dataset_3/validate",n_features=X_train.shape[1])
 
 
 
 train = True
-#clf.predict(X_train)
+
+
 # Run classifier
 if train:
+    finalData, idxVectors = akfa(X_train)
+    # ----------------------------------------------------
+    # first, specify classifier
     classifier = svm.SVC(C=1.0,kernel='rbf', probability=True, tol=0.1)
     classifier = classifier.fit(X_train, y_train)
-    #finalData, components = akfa(np.array(X_test),5,0.1,'gauss')
+    # now we can predict
     probas = classifier.predict_proba(X_test)
     print(classifier.get_params())
 
