@@ -9,16 +9,27 @@ from sklearn.metrics import roc_curve, auc
 import pylab as pl
 from AKFA import akfa
 import numpy as np
+import scipy as sp
+import gc
 
-
-X_train, y_train = load_svmlight_file("./data/dataset_3/train")
-
-X_test, y_test = load_svmlight_file("./data/dataset_3/test",n_features=X_train.shape[1])
+X_train, y_train = load_svmlight_file("./data/dataset_1/train")
+numberOfSamples = X_train.shape[0]
+numberOfFeatures = X_train.shape[1]
+#X_test, y_test = load_svmlight_file("./data/dataset_3/test",n_features=X_train.shape[1])
 #X_val, y_val = load_svmlight_file("./data/dataset_3/validate",n_features=X_train.shape[1])
 
+print("The read file contains %d samples points and  %d features " % (numberOfSamples, numberOfFeatures))
+newSet = X_train[:,100][:]
+print(" ----- ")
+print(" Now choosing the first 100 vectors for testing")
+#print(newSet.todense())
+
+print(isinstance(newSet,sp.sparse.csr.csr_matrix))
+#idxVectors = akfa(X_train[:,10000][:])
 
 
-train = True
+
+train = False
 
 
 # Run classifier

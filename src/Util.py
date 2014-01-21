@@ -92,7 +92,7 @@ def comp_eigen(K):
 Project components onto new data
 '''
 def projectKernelComp(learningset,dataset,comp,kernel='gauss'):
-    matrix = learningset.transpose()
+    #matrix = learningset.transpose()
     finalData = deque([])
     #now, we must project the chosen components onto the dataset
     for x in dataset.transpose():
@@ -100,11 +100,11 @@ def projectKernelComp(learningset,dataset,comp,kernel='gauss'):
         y = copy.copy(x)
         for index in range(x.shape[0]):
             tmp = 0
-            for i in range(matrix.shape[0]):
+            for i in range(learningset.transpose().shape[0]):
                 if kernel == 'exp':
-                    tmp += comp[index,i]*exponential(matrix[i],x)
+                    tmp += comp[index,i]*exponential(learningset.transpose()[i],x)
                 elif kernel == 'gauss':
-                    tmp += comp[index,i]*gaussian(matrix[i],x)
+                    tmp += comp[index,i]*gaussian(learningset.transpose()[i],x)
             y[index] = tmp
         finalData.append(y)
     fData = np.zeros((dataset.shape[0],dataset.shape[1]),dtype = np.double)
@@ -129,6 +129,9 @@ def exponential(vec_one, vec_two):
 
 #This function describes the Gaussian Kernel
 def gaussian(vec_one,vec_two, sigma=4):
+    print("Shape:")
+    print(vec_one.shape)
+    print(vec_two.shape)
     return math.exp(-np.linalg.norm(vec_one - vec_two,2)**2/(2*sigma*sigma))
 
 # ----------------------------------
