@@ -71,7 +71,7 @@ def comp_K(matrix, kernel='linear'):
                 K[i][j] = gaussian(matrix[i], matrix[j])
             else:
                 K[i][j] = linear(matrix[i], matrix[j])
-    K = center_K(K)
+    #K = center_K(K)
     return K
 
 '''
