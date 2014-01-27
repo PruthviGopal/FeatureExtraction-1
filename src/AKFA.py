@@ -29,21 +29,20 @@ def sparseNorm2(data):
 '''
 Project components onto new data
 '''
-def projectKernelComp(dataset,comp,n):
+def projectKernelComp(dataset,comp,numberOfDataPoints,numberOfFeatures):
     #matrix = learningset.transpose()
-    numberOfDimensions = dataset.shape[1]
-    fData = sparse.csr_matrix( np.zeros((dataset.shape[0],dataset.shape[1]),dtype = np.double))
+    fData = sparse.dok_matrix( (numberOfFeatures,dataset.shape[1]),dtype = np.double)
+    print(" ... beginning to project components onto data set")
     #now, we must project the chosen components onto the dataset
-    for x in range(n):
+    for x in range(numberOfDataPoints):
         #We have now chosen a point in our dataset which is to be adapted
-        y = dataset[x,:]
-        for index in range(n):
+        for index in range(numberOfFeatures):
             tmp = 0
-            for i in range(numberOfDimensions):
-                tmp += comp[index,i]*gaussian(dataset[i,:],y)
-            y[0,index] = tmp
-        fData[x,:] = tmp
-    return fData
+            for i in range(numberOfDataPoints):
+                tmp += comp[index,i]*gaussian(dataset[:,i],dataset[:,x])
+            fData[index,x] = tmp
+    print("....... projecting finished!")
+    return fData.tocsr()
 
 
 
@@ -52,6 +51,7 @@ def projectKernelComp(dataset,comp,n):
 def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4,):
     print("___________")
     print("Setting up for Feature Extraction via Accelerated Kernel Feature Analysis")
+    print(" ... %d features are to be extracted!" %(featureNumber))
     print("Data set begin loaded...")
     print(".....")
     print(".....")
@@ -61,33 +61,25 @@ def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4,):
         dataset = sparse.csr_matrix(dataset,dtype=np.double)
         print(".....")
         print("Conversion to sparse matrix successfull")
-    elif( not isinstance(dataset,sparse.csr_matrix) or not isinstance(dataset,sparse.csc.csc_matrix) ):
-        raise Exception("The data set is not in the right format")
+    #elif( (not isinstance(dataset,sparse.csr_matrix)) or (not isinstance(dataset,sparse.csc.csc_matrix) )):
+        #raise Exception("The data set is not in the right format")
     print("Loading of data set is completed")
     print(".....")
     # Here we need to transform the matrix, so that we can access the vectors easier
-    dataset = dataset.transpose()
-    n = dataset.shape[0]
+    #dataset = dataset.transpose()
+    n = dataset.shape[1]
     # Now we can compute the Gram Matrix
-    print("The loaded file contains %d samples points and %d dimensions " % (n, dataset.shape[1]))
+    print("The loaded file contains %d samples points and %d dimensions " % (n, dataset.shape[0]))
     print(".....")
-    K = sparse.csr_matrix( np.zeros((n,n),dtype = np.double))
+    K = sparse.dok_matrix( (n,n),dtype = np.double)
     print(".....")
     print("Creating new Sparse Matrix for holding the Gram Matrix")
+    print("For a large data set, this may take a while ...")
     for i in range(n):
-        #tmp_indices = np.array([],dtype = np.double)
-        #tmp_indptr = np.array([],dtype = np.double)
-        #tmp_data = np.array([],dtype = np.double)
         for j in range(n):
-            K[i,j] = gaussian(dataset[i,:], dataset[j,:],sigma)
-            #tmp_indices = np.append(tmp_indices,j)
-            #tmp_data = np.append(tmp_data,gaussian(dataset.getrow(i), dataset.getrow(j),sigma))
-            #K.getrow(i)[j] = gaussian(dataset.getrow(i), dataset.getrow(j),sigma)
-            #print("Value is: %d " % (K.getcol(i)[j]))
-        #tmp_indptr = np.append(tmp_indptr,i*n)
-        #K.data = np.append(K.data,tmp_data)
-        #K.indices = np.append(K.indices,tmp_indices)
-        #K.indptr = np.append(K.data,tmp_indptr)
+            K[i,j] = gaussian(dataset[:,i], dataset[:,j],sigma)
+        print("Done for data point %d of %d ... " %(i,n))
+    K = K.tocsr()
     print(".....")
     print("Done computing the Gram Matrix")
     print("......")
@@ -103,11 +95,12 @@ def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4,):
     timeBefore = time.time()
     # Now we need variables to hold the extracted components
     idx = 0
-    idxVectors = np.zeros((featureNumber, n), np.double)
+    idxVectors = np.zeros( (featureNumber,n),dtype = np.double)
+    print(idxVectors.shape)
     # Now we can start to extract features
     for i in range(featureNumber):
         print("___________________")
-        print("Starting extracting of feature %d" % (i))
+        print("Starting extracting of feature %d" % (i+1))
         # Extract i-th feature using (11)
         maxValue = 0
         maxIn = 0
@@ -125,24 +118,30 @@ def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4,):
                 maxIn = j
         # NEED TO CHECK FOR ZERO VALUES IN DATA
         print("........")
-        idxVectors[i] =  K.getcol(maxIn).data / sparseNorm2(K.getcol(maxIn).data)
+        idxVectors[i,:] =  K[maxIn,:].todense() / sparseNorm2(K.getcol(maxIn).data)
         idx = maxIn
         print("__Feature found!")
+        if i == featureNumber-1:
+            continue
         # Now we must use equation (10) to update the Kernel Matrix K       
-        K_new = sparse.csr_matrix( np.zeros((n,n),dtype = np.double))
+        K_new = sparse.dok_matrix( (n,n),dtype = np.double)
         print("Updating Gram Matrix!")
         for j in range(n):
             for k in range(n):
                 K_new[j,k] = K[j,k] - ((K[j,idx]*K[k,idx])/K[idx,idx])
-        K = K_new
+        K = K_new.tocsr()
+        #K.eliminate_zeros()
         print("Update successfull - continue!")
         
-    timeAfter = time.time()
+    tmpTime = time.time()
     print("__________")
-    print("It took that many seconds to compute the data with AKFA: %f" % (timeAfter-timeBefore))
+    print("It took that many seconds to compute the data with AKFA: %f" % (tmpTime-timeBefore))
     print("__________")
-    finalData = projectKernelComp(dataset, idxVectors,n)
-    return finalData, idxVectors
+    finalData = projectKernelComp(dataset, idxVectors,n,featureNumber)
+    print("__________")
+    print("It took that many seconds to project the components onto the data: %f" % (time.time()-tmpTime))
+    print("__________")
+    return finalData.tocsr(), idxVectors
 
 
     
