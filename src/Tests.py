@@ -58,7 +58,6 @@ train = False
 
 # Run classifier
 if train:
-    finalData, idxVectors = akfa(X_train)
     # ----------------------------------------------------
     # first, specify classifier
     classifier = svm.SVC(C=1.0,kernel='rbf', probability=True, tol=0.1)

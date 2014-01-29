@@ -71,14 +71,14 @@ def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4,):
     # Now we can compute the Gram Matrix
     print("The loaded file contains %d samples points and %d dimensions " % (n, dataset.shape[0]))
     print(".....")
-    K = sparse.dok_matrix( (n,n),dtype = np.double)
+    K = sparse.lil_matrix( (n,n),dtype = np.double)
     print(".....")
     print("Creating new Sparse Matrix for holding the Gram Matrix")
     print("For a large data set, this may take a while ...")
     for i in range(n):
         for j in range(n):
             K[i,j] = gaussian(dataset[:,i], dataset[:,j],sigma)
-        print("Done for data point %d of %d ... " %(i,n))
+        print("Done for row [%d]"%(i))
     K = K.tocsr()
     print(".....")
     print("Done computing the Gram Matrix")
