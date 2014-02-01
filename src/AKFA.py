@@ -11,7 +11,8 @@ import numpy as np
 from pylab import *
 import time
 from scipy import sparse
-
+from scipy.spatial.distance import pdist, squareform
+from scipy import exp
 # -------------------- Utility Functions -------------------------#
 
 '''
@@ -30,7 +31,7 @@ def sparseNorm2(data):
 Project components onto new data
 '''
 def projectKernelComp(dataset,comp,numberOfDataPoints,numberOfFeatures):
-    #matrix = learningset.transpose()
+
     fData = sparse.dok_matrix( (numberOfFeatures,dataset.shape[1]),dtype = np.double)
     print(" ... beginning to project components onto data set")
     #now, we must project the chosen components onto the dataset
@@ -49,6 +50,7 @@ def projectKernelComp(dataset,comp,numberOfDataPoints,numberOfFeatures):
 # -------------------- Code -------------------------#
 
 def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4,):
+    #dataset = sparse.dok_matrix(dataset.transpose(),dtype=np.double)
     print("___________")
     print("Setting up for Feature Extraction via Accelerated Kernel Feature Analysis")
     print(" ... %d features are to be extracted!" %(featureNumber))
@@ -58,7 +60,7 @@ def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4,):
     # first off, we need to check if the given data set is a numpy array or a sparse matrix
     if( isinstance(dataset,np.ndarray)):
         print("Data set is not a sparse matrix --> reconfiguring into sparse matrix")
-        dataset = sparse.csr_matrix(dataset,dtype=np.double)
+        dataset = sparse.dok_matrix(dataset,dtype=np.double)
         print(".....")
         print("Conversion to sparse matrix successfull")
     #elif( (not isinstance(dataset,sparse.csr_matrix)) or (not isinstance(dataset,sparse.csc.csc_matrix) )):
@@ -67,19 +69,24 @@ def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4,):
     print(".....")
     # Here we need to transform the matrix, so that we can access the vectors easier
     #dataset = dataset.transpose()
-    n = dataset.shape[1]
+    n = dataset.shape[0]
     # Now we can compute the Gram Matrix
     print("The loaded file contains %d samples points and %d dimensions " % (n, dataset.shape[0]))
     print(".....")
-    K = sparse.lil_matrix( (n,n),dtype = np.double)
+    K = sparse.dok_matrix( (n,n),dtype = np.double)
     print(".....")
     print("Creating new Sparse Matrix for holding the Gram Matrix")
     print("For a large data set, this may take a while ...")
-    for i in range(n):
-        for j in range(n):
-            K[i,j] = gaussian(dataset[:,i], dataset[:,j],sigma)
-        print("Done for row [%d]"%(i))
-    K = K.tocsr()
+    #timeMatrix = time.time()
+    #for i in range(n):
+        #for j in range(n):
+            #K[i,j] = gaussian(dataset[:,i], dataset[:,j],sigma)
+        #print("Done for row [%d]"%(i))
+    #print("It took %f seconds to build the Gram matrix" %(time.time()-timeMatrix))
+    #K = K.tocsr()
+    dist = pdist(dataset.todense(), 'euclidean')
+    pairwise_dists = squareform(dist)
+    K = exp(pairwise_dists / sigma**2)
     print(".....")
     print("Done computing the Gram Matrix")
     print("......")
@@ -96,7 +103,7 @@ def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4,):
     # Now we need variables to hold the extracted components
     idx = 0
     idxVectors = np.zeros( (featureNumber,n),dtype = np.double)
-    print(idxVectors.shape)
+
     # Now we can start to extract features
     for i in range(featureNumber):
         print("___________________")
@@ -111,14 +118,14 @@ def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4,):
             # delta set to 0.0 therefore we need to set an smaller and equal then
             if K[j,j] <= delta:
                 continue
-            sumOf = K.getcol(j).multiply(K.getcol(j)).sum()
-            sumOf = (1/(n*K[j,j]) * sumOf)
+            #sumOf = (1/(n*K[j,j])) * K.getcol(j).multiply(K.getcol(j)).sum()
+            sumOf = (1/(n*K[j,j])) * np.multiply(K[j,:],K[j,:]).sum()
             if ( sumOf > maxValue):
                 maxValue = sumOf
                 maxIn = j
         # NEED TO CHECK FOR ZERO VALUES IN DATA
         print("........")
-        idxVectors[i,:] =  K[maxIn,:].todense() / sparseNorm2(K.getcol(maxIn).data)
+        idxVectors[i,:] =  K[maxIn,:] / sparseNorm2(K[maxIn,:])
         idx = maxIn
         print("__Feature found!")
         if i == featureNumber-1:

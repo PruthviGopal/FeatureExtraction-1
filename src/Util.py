@@ -62,7 +62,7 @@ This function is used to compute the gram matrix of a given matrix
 def comp_K(matrix, kernel='linear'):
     #matrix = matrix.transpose()
     N = matrix.shape[0]
-    K = np.zeros((N,N), float)
+    K = np.zeros((N,N), np.double)
     for i in range(N):
         for j in range(N):
             if kernel == 'exp':
@@ -137,8 +137,9 @@ def gaussian(vec_one,vec_two, sigma=4):
 # ----------------------------------
 
 def gen_Circle(small = 30, med = 60, big = 60, delta = 1, smallMax = 1, medMax = 4, bigMax = 8):
-    x_val = np.array(range(small+med+big),dtype=float);
-    y_val = np.array(range(small+med+big),dtype=float);
+    val = np.zeros( (small+med+big,2),dtype=np.double);
+    
+    #y_val = np.array(range(small+med+big),dtype=np.double);
     
     random.seed()
     i = 0;
@@ -146,8 +147,8 @@ def gen_Circle(small = 30, med = 60, big = 60, delta = 1, smallMax = 1, medMax =
         x = random.uniform(-smallMax,smallMax)
         y = random.uniform(-smallMax,smallMax)
         if x**2+y**2 <= smallMax*smallMax:
-            x_val[i] = x
-            y_val[i] = y
+            val[i,0] = x
+            val[i,1] = y
             i = i + 1
                     
     
@@ -155,19 +156,19 @@ def gen_Circle(small = 30, med = 60, big = 60, delta = 1, smallMax = 1, medMax =
         x = random.uniform(-medMax,medMax)
         y = random.uniform(-medMax,medMax)
         if (x**2+y**2 >= (medMax-delta)*(medMax-1)) & (x**2+y**2 <= medMax*medMax):
-            x_val[i] = x
-            y_val[i] = y
+            val[i,0] = x
+            val[i,1] = y
             i = i + 1
         
     while i < (small+med+big):
         x = random.uniform(-bigMax,bigMax)
         y = random.uniform(-bigMax,bigMax)
         if (x**2+y**2 >= (bigMax-delta)*(bigMax-1)) & (x**2+y**2 <= bigMax*bigMax):
-            x_val[i] = x
-            y_val[i] = y
+            val[i,0] = x
+            val[i,1] = y
             i = i + 1
     
-    return np.array( (x_val,y_val))
+    return val
         
 
 
