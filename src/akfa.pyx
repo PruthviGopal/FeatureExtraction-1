@@ -13,9 +13,9 @@ import time
 from scipy import sparse
 from scipy.spatial.distance import pdist, squareform
 from scipy import exp
-
+from scipy import spatial
 cimport numpy as np
-
+cimport cython
 
 DTYPE = np.double
 ctypedef np.double_t DTYPE_t
@@ -24,10 +24,11 @@ ctypedef np.double_t DTYPE_t
 '''
 Used to compute the gaussian kernel of a given matrix
 '''
-def gaussian(vec_one,vec_two, sigma=4):
-    return exp(-np.linalg.norm(vec_one - vec_two,2)**2/(2*sigma*sigma))
+cdef double gaussian(np.ndarray vec_one,np.ndarray vec_two, sigma=4):
+    #return exp(-np.linalg.norm(vec_one - vec_two,2)**2/(2*sigma*sigma))
+    return exp(-spatial.distance.euclidean(vec_one,vec_two)**2/(2*sigma*sigma))
 
-def sparseNorm2(data):
+cdef double sparseNorm2(np.ndarray data):
     value = 0.0
     for i in xrange(data.shape[0]):
         value += data[i]*data[i]
@@ -36,7 +37,7 @@ def sparseNorm2(data):
 '''
 Project components onto new data
 '''
-def projectKernelComp(np.ndarray dataset,np.ndarray comp,int numberOfDataPoints,int numberOfFeatures):
+def projectKernelComp(dataset,np.ndarray comp,int numberOfDataPoints,int numberOfFeatures):
     cdef double tmp = 0
     cdef np.ndarray fData = np.zeros( (numberOfFeatures,numberOfDataPoints),dtype = np.double)
     tmpTime = time.time()
@@ -57,7 +58,7 @@ def projectKernelComp(np.ndarray dataset,np.ndarray comp,int numberOfDataPoints,
 
 # -------------------- Code -------------------------#
 
-def akfa(np.ndarray dataset, int featureNumber=2, double delta = 0.0, int sigma=4,):
+def akfa(dataset, int featureNumber=2, double delta = 0.0, int sigma=4,):
     
     
     '''
@@ -68,7 +69,7 @@ def akfa(np.ndarray dataset, int featureNumber=2, double delta = 0.0, int sigma=
     # A Matrix for holding the Gram Matrix
     cdef np.ndarray K = np.zeros( (n,1),dtype = np.double)
     # A temporary Matrix for holding the Gram Matrix during the update
-    cdef np.ndarray K_new = np.zeros( (n,n),dtype = np.double)
+    #cdef np.ndarray K_new = np.zeros( (n,n),dtype = np.double)
     # Index for sotring the chosen vector in the Gram Matrix
     cdef np.ndarray idx = np.arange(featureNumber)
     # Array for holding the chosen components
@@ -92,11 +93,11 @@ def akfa(np.ndarray dataset, int featureNumber=2, double delta = 0.0, int sigma=
     #dataset = dataset.transpose()
     
     # Now we can compute the Gram Matrix
-    print("The loaded file contains %d samples points and %d dimensions " % (n, dataset.shape[0]))
+    print("The loaded file contains %d samples points and %d dimensions " % ( dataset.shape[0],n))
     print(".....")
     
     print(".....")
-    print("Creating the Gram Matrix of size %dx%d"%(n,n))
+    print("NOT Creating the Gram Matrix of size %dx%d"%(n,n))
     print("For a large data set, this may take a while ...")
     
     #timeMatrix = time.time()
@@ -136,8 +137,10 @@ def akfa(np.ndarray dataset, int featureNumber=2, double delta = 0.0, int sigma=
         print("....")
         for j in range(n):
             sumOf = 0
+            timeVec = time.time()
             for k in range(n):
-                K[k,0] = gaussian(dataset[:,j], dataset[:,k],sigma)
+                K[k,0] = gaussian(dataset[:,j].todense(), dataset[:,k].todense(),sigma)
+            print("Successfully build vector %d in %f"%(j,time.time()-timeVec))
             for f in range(i):
                 for k in range(n):
                     #K_new[j,k] = K[j,k] - ((K[j,idx]*K[k,idx])/K[idx,idx])
@@ -153,13 +156,13 @@ def akfa(np.ndarray dataset, int featureNumber=2, double delta = 0.0, int sigma=
             if ( sumOf > maxValue):
                 maxValue = sumOf
                 maxIn = j
-        
+        print("__Feature found!")
         print("........")
         for k in range(n): 
-                K[k,0] = gaussian(dataset[:,maxIn], dataset[:,k],sigma)
+                K[k,0] = gaussian(dataset[:,maxIn].todense(), dataset[:,k].todense(),sigma)
         idxVectors[i,:] =  K[:,0] #/ sparseNorm2(K[:,0])
         idx[i] = maxIn
-        print("__Feature found!")
+        print("Feature found and successfully stored!")
         if i == featureNumber-1:
             continue
         # Now we must use equation (10) to update the Kernel Matrix K       
