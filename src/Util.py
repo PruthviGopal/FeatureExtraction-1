@@ -129,9 +129,6 @@ def exponential(vec_one, vec_two):
 
 #This function describes the Gaussian Kernel
 def gaussian(vec_one,vec_two, sigma=4):
-    print("Shape:")
-    print(vec_one.shape)
-    print(vec_two.shape)
     return math.exp(-np.linalg.norm(vec_one - vec_two,2)**2/(2*sigma*sigma))
 
 # ----------------------------------

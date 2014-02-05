@@ -13,21 +13,30 @@ from scipy import sparse
 #import gc
 import Util
 import akfa as feature
-
+from scipy.spatial.distance import cdist
+import h5py as hpy
+from scipy.spatial.distance import pdist, squareform
+from scipy import exp
+import scipy as sp
+from scipy import spatial
 '''
- testing for csr_matrix akfa here
+# testing for csr_matrix akfa here
 #===============================================================================
-tmp = np.array( ( (1,2,3,4,5), (-1,3,-5,8,3) ), np.double)
-x = Util.gen_Circle().transpose()
-
-
+#tmp = np.array( ( (1,2,3,4,5), (-1,3,-5,8,3) ), np.double)
+#xa = np.array( ( (1,2), (-1,2) ), np.double)
+#print(tmp.shape)
+#print cdist(xa.transpose(),tmp.transpose())
+#exit()
+x = Util.gen_Circle()
+comps = feature.akfa(x,4)
+exit()
 pl.figure(0)
 pl.title("Original Data")
 #pl.plot(x[0,:], x[1,:], 'ro',color='blue')
 pl.plot(x[0][range(30)], x[1][range(30)], 'ro')
 pl.plot(x[0][range(30,90)], x[1][range(30,90)], 'ro',color='blue')
 pl.plot(x[0][range(90,150)], x[1][range(90,150)], 'ro',color='green')
-finalData, comps = feature.akfa(x,4)
+
 
 
 pl.figure(1)
@@ -45,6 +54,32 @@ exit()
 #===============================================================================
 '''
 X_train, y_train = load_svmlight_file("./data/dataset_1/train")
+
+numberOfSamples = X_train.shape[0]
+numberOfFeatures = X_train.shape[1]
+newSet = X_train[:250,:]
+print("The read file contains %d samples points and  %d features " % (numberOfSamples, numberOfFeatures))
+
+files = hpy.File("akfaData","w")
+sparseMatrix = files.create_dataset("sparseMat", (numberOfSamples,numberOfFeatures) , dtype=np.byte)
+kernelMatrix = files.create_dataset("kernelMat", (numberOfSamples,numberOfSamples) , dtype=np.float32)
+
+#set = file.create_dataset("sparsedata", data=X_train.todense())
+#dset = file.create_dataset("sparsedata", data=exp(squareform(pdist(X_train, 'euclidean'))))
+numberOfSamples = 250
+sigma = 4
+
+for i in range(numberOfSamples):
+    sparseMatrix[i,:] = newSet[i,:].todense()
+    # ( i % 1000 == 0):
+        #print(i/1000)
+print("Done!")
+for i in range(numberOfSamples):
+    for j in range(numberOfSamples):
+        kernelMatrix[i,j] = exp(-spatial.distance.euclidean(sparseMatrix[i],sparseMatrix[j])**2/(2*sigma*sigma))
+    print(i)
+'''
+X_train, y_train = load_svmlight_file("./data/dataset_1/train")
 numberOfSamples = X_train.shape[0]
 numberOfFeatures = X_train.shape[1]
 
@@ -59,7 +94,7 @@ newSet = X_train[:250,:]
 #print(" ----- ")
 #print(" Now choosing the first 100 vectors for testing")
 #print(newSet.todense())
-finalData, idxVectors = feature.akfa(newSet)
+idxVectors = feature.akfa(X_train)
 
 #train = False
 
@@ -91,3 +126,4 @@ finalData, idxVectors = feature.akfa(newSet)
     #pl.title('Receiver operating characteristic example')
     #pl.legend(loc="lower right")
     #pl.show()
+'''

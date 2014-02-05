@@ -11,9 +11,10 @@ import numpy as np
 import math as ma
 import time
 from scipy import sparse
-from scipy.spatial.distance import pdist, squareform
+from scipy.spatial.distance import pdist, squareform, cdist
 from scipy import exp
 from scipy import spatial
+from AKFA import projectKernelComp
 cimport numpy as np
 cimport cython
 
@@ -39,7 +40,7 @@ Project components onto new data
 '''
 def projectKernelComp(dataset,np.ndarray comp,int numberOfDataPoints,int numberOfFeatures):
     cdef double tmp = 0
-    cdef np.ndarray fData = np.zeros( (numberOfFeatures,numberOfDataPoints),dtype = np.double)
+    cdef np.ndarray fData = np.zeros( (numberOfDataPoints,numberOfFeatures),dtype = np.double)
     tmpTime = time.time()
     print(" ... beginning to project components onto data set")
     #now, we must project the chosen components onto the dataset
@@ -60,12 +61,14 @@ def projectKernelComp(dataset,np.ndarray comp,int numberOfDataPoints,int numberO
 
 def akfa(dataset, int featureNumber=2, double delta = 0.0, int sigma=4,):
     
+    nparray = isinstance(dataset,np.ndarray)
     
     '''
     First off, we need to specify our variables for this function
     '''
     # The number of Data Points in the data set
-    cdef int n = dataset.shape[1]
+    cdef int n = dataset.shape[0]
+    cdef int dim = dataset.shape[1]
     # A Matrix for holding the Gram Matrix
     cdef np.ndarray K = np.zeros( (n,1),dtype = np.double)
     # A temporary Matrix for holding the Gram Matrix during the update
@@ -93,7 +96,7 @@ def akfa(dataset, int featureNumber=2, double delta = 0.0, int sigma=4,):
     #dataset = dataset.transpose()
     
     # Now we can compute the Gram Matrix
-    print("The loaded file contains %d samples points and %d dimensions " % ( dataset.shape[0],n))
+    print("The loaded file contains %d samples points and %d dimensions " % ( n,dim))
     print(".....")
     
     print(".....")
@@ -139,8 +142,13 @@ def akfa(dataset, int featureNumber=2, double delta = 0.0, int sigma=4,):
             sumOf = 0
             timeVec = time.time()
             for k in range(n):
-                K[k,0] = gaussian(dataset[:,j].todense(), dataset[:,k].todense(),sigma)
-            print("Successfully build vector %d in %f"%(j,time.time()-timeVec))
+                if nparray:
+                    #tmp = cdist(xa.transpose(),dataset.transpose())
+                    K[k,0] = gaussian(dataset[j,:], dataset[k,:],sigma)
+                else:
+                    K[k,0] = gaussian(dataset[j,:].todense(), dataset[k,:].todense(),sigma)
+            if i == 0:
+                print("Successfully build vector %d in %f"%(j,time.time()-timeVec))
             for f in range(i):
                 for k in range(n):
                     #K_new[j,k] = K[j,k] - ((K[j,idx]*K[k,idx])/K[idx,idx])
@@ -148,7 +156,6 @@ def akfa(dataset, int featureNumber=2, double delta = 0.0, int sigma=4,):
                     K[k,0] = K[k,0] - up
             # Neglect all cases, where diagonal element is smaller then delta
             # delta set to 0.0 therefore we need to set an smaller and equal then
-            
             if K[j,0] <= delta:
                 continue
             #sumOf = (1/(n*K[j,j])) * K.getcol(j).multiply(K.getcol(j)).sum()
@@ -158,8 +165,11 @@ def akfa(dataset, int featureNumber=2, double delta = 0.0, int sigma=4,):
                 maxIn = j
         print("__Feature found!")
         print("........")
-        for k in range(n): 
-                K[k,0] = gaussian(dataset[:,maxIn].todense(), dataset[:,k].todense(),sigma)
+        for k in range(n):
+            if not nparray:
+                K[k,0] = gaussian(dataset[maxIn,:].todense(), dataset[k,:].todense(),sigma)
+            else:
+                K[k,0] = gaussian(dataset[maxIn,:], dataset[k,:],sigma)
         idxVectors[i,:] =  K[:,0] #/ sparseNorm2(K[:,0])
         idx[i] = maxIn
         print("Feature found and successfully stored!")
@@ -182,10 +192,10 @@ def akfa(dataset, int featureNumber=2, double delta = 0.0, int sigma=4,):
         idxVectors[i,:] = idxVectors[i,:] / sparseNorm2(idxVectors[i,:])
     tmpTime = time.time()
     print("__________")
-    print("It took that many seconds to compute the data with AKFA: %f" % (tmpTime-timeBefore))
+    print("It took that %f seconds to compute the data with AKFA" % (tmpTime-timeBefore))
     print("__________")
-    exit()
-    return projectKernelComp(dataset, idxVectors,n,featureNumber), idxVectors
+    return idxVectors
+    return projectKernelComp(dataset,idxVectors,n,featureNumber),idxVectors
 
 
     
