@@ -13,6 +13,8 @@ import time
 from scipy import sparse
 from scipy.spatial.distance import pdist, squareform
 from scipy import exp
+import h5py as hpy
+from sklearn.metrics.pairwise import pairwise_distances as padis
 # -------------------- Utility Functions -------------------------#
 
 '''
@@ -21,11 +23,6 @@ Used to compute the gaussian kernel of a given matrix
 def gaussian(vec_one,vec_two, sigma=4):
     return math.exp(-np.linalg.norm(vec_one.todense() - vec_two.todense(),2)**2/(2*sigma*sigma))
 
-def sparseNorm2(data):
-    value = 0.0
-    for i in xrange(data.shape[0]):
-        value += data[i]*data[i]
-    return sqrt(value)
 
 '''
 Project components onto new data
@@ -49,55 +46,51 @@ def projectKernelComp(dataset,comp,numberOfDataPoints,numberOfFeatures):
 
 # -------------------- Code -------------------------#
 
-def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4,):
-    #dataset = sparse.dok_matrix(dataset.transpose(),dtype=np.double)
+def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4, chunkSize = 4):
     print("___________")
     print("Setting up for Feature Extraction via Accelerated Kernel Feature Analysis")
     print(" ... %d features are to be extracted!" %(featureNumber))
     print("Data set begin loaded...")
     print(".....")
     print(".....")
-    # first off, we need to check if the given data set is a numpy array or a sparse matrix
-    if( isinstance(dataset,np.ndarray)):
-        print("Data set is not a sparse matrix --> reconfiguring into sparse matrix")
-        dataset = sparse.dok_matrix(dataset,dtype=np.double)
-        print(".....")
-        print("Conversion to sparse matrix successfull")
-    #elif( (not isinstance(dataset,sparse.csr_matrix)) or (not isinstance(dataset,sparse.csc.csc_matrix) )):
-        #raise Exception("The data set is not in the right format")
     print("Loading of data set is completed")
     print(".....")
-    # Here we need to transform the matrix, so that we can access the vectors easier
-    #dataset = dataset.transpose()
     n = dataset.shape[0]
+    numberOfFeatures = dataset.shape[1]
     # Now we can compute the Gram Matrix
-    print("The loaded file contains %d samples points and %d dimensions " % (n, dataset.shape[0]))
+    print("The loaded file contains %d samples points and %d dimensions " % (n,numberOfFeatures ))
     print(".....")
-    K = sparse.dok_matrix( (n,n),dtype = np.double)
+    # Now we need to create a file that holds the Gram Matrix
+    files = hpy.File("akfaData","w")
+    kernelMatrix = files.create_dataset("kernelMat", (n,n) , dtype=np.float32)
     print(".....")
     print("Creating new Sparse Matrix for holding the Gram Matrix")
     print("For a large data set, this may take a while ...")
-    #timeMatrix = time.time()
-    #for i in range(n):
-        #for j in range(n):
-            #K[i,j] = gaussian(dataset[:,i], dataset[:,j],sigma)
-        #print("Done for row [%d]"%(i))
-    #print("It took %f seconds to build the Gram matrix" %(time.time()-timeMatrix))
-    #K = K.tocsr()
-    dist = pdist(dataset.todense(), 'euclidean')
-    pairwise_dists = squareform(dist)
-    K = exp(pairwise_dists / sigma**2)
+    chunk = n/chunkSize
+    print("Chunking data set into %d different sents" % (chunkSize))
+    print(".... now starting to compute %d x %d blocks of Gram Matrix" % (chunk,chunk) )
+    timeBef = time.time()
+    for i in range(chunkSize):
+        for j in range(chunkSize):
+            kernelMatrix[i*chunk:(i+1)*chunk,j*chunk:(j+1)*chunk] = exp( - padis(dataset[i*chunk:(i+1)*chunk,:], dataset[j*chunk:(j+1)*chunk,:]) / 2*sigma*sigma)
+            #tmp = exp( - padis(dataset[i*chunk:(i+1)*chunk,:], dataset[j*chunk:(j+1)*chunk,:]) / 2*sigma*sigma)
+        print("  ... Finished the first %d rows" % ((i+1)*chunk))
+    print("It took %f to compute the Gram matrix" % (time.time()-timeBef))
     print(".....")
-    print("Done computing the Gram Matrix")
+    print("Therefore: Done computing the Gram Matrix")
+    print("WUHU!!")
     print("......")
     print("............")
     print("Will continue with extracting features now!")
+    
+    # -----------------------------------------------------
     #center the matrix in feature space
     # LEAVE THAT OUT FOR NOW
     #N = np.multiply(1./dataset.shape[0],np.ones( (datase(dataset.getrow(i)t.shape[0],dataset.shape[0]) , dtype = np.double) ) 
     #K = np.subtract(dataset,np.dot(N,dataset))
     #K = np.subtract(K,np.dot(dataset,N))
     #K = np.add(K,np.dot(N, np.dot(dataset,N)))
+    # -----------------------------------------------------
     # Stop the time
     timeBefore = time.time()
     # Now we need variables to hold the extracted components
@@ -111,34 +104,47 @@ def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4,):
         # Extract i-th feature using (11)
         maxValue = 0
         maxIn = 0
+        timeIn = time.time()
         print("....")
         for j in range(n):
             sumOf = 0
             # Neglect all cases, where diagonal element is smaller then delta
             # delta set to 0.0 therefore we need to set an smaller and equal then
-            if K[j,j] <= delta:
+            if kernelMatrix[j,j] <= delta:
                 continue
             #sumOf = (1/(n*K[j,j])) * K.getcol(j).multiply(K.getcol(j)).sum()
-            sumOf = (1/(n*K[j,j])) * np.multiply(K[j,:],K[j,:]).sum()
+            sumOf = (1/(n*kernelMatrix[j,j])) * np.multiply(kernelMatrix[j,:],kernelMatrix[j,:]).sum()
             if ( sumOf > maxValue):
                 maxValue = sumOf
                 maxIn = j
         # NEED TO CHECK FOR ZERO VALUES IN DATA
         print("........")
-        idxVectors[i,:] =  K[maxIn,:] / sparseNorm2(K[maxIn,:])
+        idxVectors[i,:] =  kernelMatrix[maxIn,:] / np.linalg.norm(kernelMatrix[maxIn,:])
         idx = maxIn
         print("__Feature found!")
+        print("_____ ... which took %f " % (time.time()-timeIn))
         if i == featureNumber-1:
             continue
-        # Now we must use equation (10) to update the Kernel Matrix K       
-        K_new = sparse.dok_matrix( (n,n),dtype = np.double)
-        print("Updating Gram Matrix!")
-        for j in range(n):
-            for k in range(n):
-                K_new[j,k] = K[j,k] - ((K[j,idx]*K[k,idx])/K[idx,idx])
-        K = K_new.tocsr()
+        idxVec = kernelMatrix[:,idx]
+        print(idxVec.shape)
+        print(idxVec[0])
+        print("Now updating the Gram Matrix")
+        timeBef = time.time()
+        # Now we must use equation (10) to update the Kernel Matrix K
+        for i in range(n):
+            fak = idxVec[i]/idxVec[idx]
+            kernelMatrix[:,i] = np.subtract(kernelMatrix[:,i],idxVec*fak)
+            if ( i % 1000 == 0):
+                print("For first %d it took %f" % (i,time.time()-timeBef))  
+        #K_new = sparse.dok_matrix( (n,n),dtype = np.double)
+        #print("Updating Gram Matrix!")
+        #for j in range(n):
+            #for k in range(n):
+                #K_new[j,k] = K[j,k] - ((K[j,idx]*K[k,idx])/K[idx,idx])
+        #K = K_new.tocsr()
         #K.eliminate_zeros()
-        print("Update successfull - continue!")
+        print("Update successfull - in %f " % (time.time()-timeBef))
+        print(" ------> continue!")
         
     tmpTime = time.time()
     print("__________")

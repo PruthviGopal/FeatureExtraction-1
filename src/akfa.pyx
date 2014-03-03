@@ -15,8 +15,12 @@ from scipy.spatial.distance import pdist, squareform, cdist
 from scipy import exp
 from scipy import spatial
 from AKFA import projectKernelComp
+import h5py
+
 cimport numpy as np
+
 cimport cython
+
 
 DTYPE = np.double
 ctypedef np.double_t DTYPE_t
@@ -59,7 +63,7 @@ def projectKernelComp(dataset,np.ndarray comp,int numberOfDataPoints,int numberO
 
 # -------------------- Code -------------------------#
 
-def akfa(dataset, int featureNumber=2, double delta = 0.0, int sigma=4,):
+def akfa(dataset, K, int featureNumber=2, double delta = 0.0, int sigma=4,):
     
     nparray = isinstance(dataset,np.ndarray)
     
@@ -70,7 +74,7 @@ def akfa(dataset, int featureNumber=2, double delta = 0.0, int sigma=4,):
     cdef int n = dataset.shape[0]
     cdef int dim = dataset.shape[1]
     # A Matrix for holding the Gram Matrix
-    cdef np.ndarray K = np.zeros( (n,1),dtype = np.double)
+    #cdef np.ndarray K = np.zeros( (n,1),dtype = np.double)
     # A temporary Matrix for holding the Gram Matrix during the update
     #cdef np.ndarray K_new = np.zeros( (n,n),dtype = np.double)
     # Index for sotring the chosen vector in the Gram Matrix
@@ -82,6 +86,9 @@ def akfa(dataset, int featureNumber=2, double delta = 0.0, int sigma=4,):
     cdef int maxIn = 0
     cdef double sumOf = 0
     cdef double up = 0
+    cdef int i = 0
+    cdef int j = 0
+    cdef int k = 0
     print("OH MY GOD I AM A CYTHON FUNCTION")
     #dataset = sparse.dok_matrix(dataset.transpose(),dtype=np.double)
     print("___________")
@@ -103,12 +110,12 @@ def akfa(dataset, int featureNumber=2, double delta = 0.0, int sigma=4,):
     print("NOT Creating the Gram Matrix of size %dx%d"%(n,n))
     print("For a large data set, this may take a while ...")
     
-    #timeMatrix = time.time()
-    #for i in range(n):
-        #for j in range(n):
-            #K[i,j] = gaussian(dataset[:,i], dataset[:,j],sigma)
-        #print("Done for row [%d]"%(i))
-    #print("It took %f seconds to build the Gram matrix" %(time.time()-timeMatrix))
+    timeMatrix = time.time()
+    for i in range(n):
+        for j in range(n):
+            K[i,j] = exp(-spatial.distance.euclidean(dataset[i,:],dataset[j,:])**2/(2*sigma*sigma))
+        print("Done for row [%d]"%(i))
+    print("It took %f seconds to build the Gram matrix" %(time.time()-timeMatrix))
 
     #pairwise_dists = squareform(pdist(dataset.transpose(), 'euclidean'))
     #K = exp(pairwise_dists**2 / (2*sigma*sigma))
@@ -141,19 +148,19 @@ def akfa(dataset, int featureNumber=2, double delta = 0.0, int sigma=4,):
         for j in range(n):
             sumOf = 0
             timeVec = time.time()
-            for k in range(n):
-                if nparray:
+            #for k in range(n):
+                #if nparray:
                     #tmp = cdist(xa.transpose(),dataset.transpose())
-                    K[k,0] = gaussian(dataset[j,:], dataset[k,:],sigma)
-                else:
-                    K[k,0] = gaussian(dataset[j,:].todense(), dataset[k,:].todense(),sigma)
-            if i == 0:
-                print("Successfully build vector %d in %f"%(j,time.time()-timeVec))
-            for f in range(i):
-                for k in range(n):
+                    #K[k,0] = gaussian(dataset[j,:], dataset[k,:],sigma)
+                #else:
+                    #K[k,0] = gaussian(dataset[j,:].todense(), dataset[k,:].todense(),sigma)
+            #if i == 0:
+                #print("Successfully build vector %d in %f"%(j,time.time()-timeVec))
+            #for f in range(i):
+                #for k in range(n):
                     #K_new[j,k] = K[j,k] - ((K[j,idx]*K[k,idx])/K[idx,idx])
-                    up = (idxVectors[f,j]*idxVectors[f,k])/idxVectors[f,idx[f]]
-                    K[k,0] = K[k,0] - up
+                    #up = (idxVectors[f,j]*idxVectors[f,k])/idxVectors[f,idx[f]]
+                    #K[k,0] = K[k,0] - up
             # Neglect all cases, where diagonal element is smaller then delta
             # delta set to 0.0 therefore we need to set an smaller and equal then
             if K[j,0] <= delta:
@@ -165,24 +172,27 @@ def akfa(dataset, int featureNumber=2, double delta = 0.0, int sigma=4,):
                 maxIn = j
         print("__Feature found!")
         print("........")
-        for k in range(n):
-            if not nparray:
-                K[k,0] = gaussian(dataset[maxIn,:].todense(), dataset[k,:].todense(),sigma)
-            else:
-                K[k,0] = gaussian(dataset[maxIn,:], dataset[k,:],sigma)
+        #for k in range(n):
+            #if not nparray:
+                #K[k,0] = gaussian(dataset[maxIn,:].todense(), dataset[k,:].todense(),sigma)
+            #else:
+                #K[k,0] = gaussian(dataset[maxIn,:], dataset[k,:],sigma)
         idxVectors[i,:] =  K[:,0] #/ sparseNorm2(K[:,0])
         idx[i] = maxIn
         print("Feature found and successfully stored!")
         if i == featureNumber-1:
             continue
-        # Now we must use equation (10) to update the Kernel Matrix K       
-        #K_new = np.zeros( (n,n),dtype = np.double)
+        # Now we must use equation (10) to update the Kernel Matrix K    
+        print("Time! %f"%(time.time()-timeBefore))
+        exit()
+           
+        K_new = np.zeros( (n,n),dtype = np.double)
         #print("Updating Gram Matrix!")
-        #for j in range(n):
-            #for k in range(n):
-                #K_new[j,k] = K[j,k] - ((K[j,idx]*K[k,idx])/K[idx,idx])
+        for j in range(n):
+            for k in range(n):
+                K_new[j,k] = K[j,k] - ((K[j,idx]*K[k,idx])/K[idx,idx])
                 #[j,k] = [j,k] - 
-        #K = K_new
+        K = K_new
         #K.eliminate_zeros()
         print("_continue!")
     '''
@@ -195,7 +205,6 @@ def akfa(dataset, int featureNumber=2, double delta = 0.0, int sigma=4,):
     print("It took that %f seconds to compute the data with AKFA" % (tmpTime-timeBefore))
     print("__________")
     return idxVectors
-    return projectKernelComp(dataset,idxVectors,n,featureNumber),idxVectors
 
 
     
