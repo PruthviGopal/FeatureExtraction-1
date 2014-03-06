@@ -23,27 +23,50 @@ from scipy import spatial
 from scipy.sparse import bmat
 from scipy.sparse import csr_matrix
 import math
-from sklearn.metrics.pairwise import pairwise_distances as pad
+from sklearn.metrics.pairwise import pairwise_distances as pasd
 
 
 
 X_train, y_train = load_svmlight_file("./data/dataset_1/train")
+x = Util.gen_Circle()
+
+#x = np.array( ( (1,2,3,4,5), (-1,3,-5,8,3) ), np.double).transpose()
 
 numberOfSamples = X_train.shape[0]
 numberOfFeatures = X_train.shape[1]
 
+#numberOfSamples = X_train.shape[0]
+#numberOfFeatures = X_train.shape[1]
+
 print("The read file contains %d samples points and  %d features " % (numberOfSamples, numberOfFeatures))
 
 
-akfa(X_train,4,0.0,4,4)
+finalData, vec = akfa(X_train,4,0.0,4,3)
+
+#pl.figure(0)
+#pl.title("Original Data")
+#pl.plot(x[:,0], x[:,1], 'ro',color='blue')
+#pl.plot(x[0][range(30)], x[1][range(30)], 'ro')
+#pl.plot(x[0][range(30,90)], x[1][range(30,90)], 'ro',color='blue')
+#pl.plot(x[0][range(90,150)], x[1][range(90,150)], 'ro',color='green')
 
 
 
+
+#pl.figure(1)
+#pl.title("Data after projecting")
+#pl.plot(finalData[:,0].todense(), finalData[:,1].todense(), 'ro',color='blue')
+#pl.plot(finalData[0][range(30)], finalData[1][range(30)], 'ro')
+#pl.plot(finalData[0][range(30,90)], finalData[1][range(30,90)], 'ro',color='blue')
+#pl.plot(finalData[0][range(90,150)], finalData[1][range(90,150)], 'ro',color='green')
+
+#pl.show()
+exit()
 '''
 # testing for csr_matrix akfa here
 #===============================================================================
 tmp = np.array( ( (1,2,3,4,5), (-1,3,-5,8,3) ), np.double).transpose()
-xa = np.array( ( (1,2), (-1,2) ), np.double)
+
 print(tmp)
 x  = cdist(tmp,tmp, 'euclidean')
 print squareform(cdist(tmp,tmp, 'euclidean'))
@@ -152,52 +175,55 @@ print("wait a minute, I am here, so it did work Oo")
 print("WUUUUUUUSA")
 #rgk = feature.akfa(sparseMatrix[i:(i+10000),:], kernelMatrix, 2, 0.1,4)
 exit()
-
+'''
 X_train, y_train = load_svmlight_file("./data/dataset_1/train")
 numberOfSamples = X_train.shape[0]
 numberOfFeatures = X_train.shape[1]
 
 #print(type(X_train))
 #print(isinstance(X_train,sparse.csr_matrix))
-#X_test, y_test = load_svmlight_file("./data/dataset_3/test",n_features=X_train.shape[1])
+X_test, y_test = load_svmlight_file("./data/dataset_3/test",n_features=numberOfFeatures)
 #X_val, y_val = load_svmlight_file("./data/dataset_3/validate",n_features=X_train.shape[1])
 
 print("The read file contains %d samples points and  %d features " % (numberOfSamples, numberOfFeatures))
-newSet = X_train[:250,:]
+
 
 #print(" ----- ")
 #print(" Now choosing the first 100 vectors for testing")
 #print(newSet.todense())
-idxVectors = feature.akfa(X_train)
 
-#train = False
+
+train = True
 
 
 # Run classifier
-#if train:
+if train:
+    print("Start training")
     # ----------------------------------------------------
     # first, specify classifier
-    #classifier = svm.SVC(C=1.0,kernel='rbf', probability=True, tol=0.1)
-    #classifier = classifier.fit(X_train, y_train)
+    classifier = svm.SVC(C=1.0,kernel='rbf', probability=True, tol=0.1)
+    print("Classifier prepared")
+    timeCla = time.time()
+    classifier = classifier.fit(X_train, y_train)
+    print("Fitting the classifier to data successful in %f" % (time.time()-timeCla))
     # now we can predict
-    #probas = classifier.predict_proba(X_test)
-    #print(classifier.get_params())
+    probas = classifier.predict_proba(X_test)
+    print(classifier.get_params())
 
     
     # Compute ROC curve and area the curve
-    #fpr, tpr, thresholds = roc_curve(y_test,probas[:,1])
-    #roc_auc = auc(fpr, tpr)
-    #print "Area under the ROC curve : %f" % roc_auc
+    fpr, tpr, thresholds = roc_curve(y_test,probas[:,1])
+    roc_auc = auc(fpr, tpr)
+    print "Area under the ROC curve : %f" % roc_auc
     
     # Plot ROC curve
-    #pl.clf()
-    #pl.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % roc_auc)
+    pl.clf()
+    pl.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % roc_auc)
 
-    #pl.xlim([0.0, 1.0])
-    #pl.ylim([0.0, 1.0])
-    #pl.xlabel('False Positive Rate')
-    #pl.ylabel('True Positive Rate')
-    #pl.title('Receiver operating characteristic example')
-    #pl.legend(loc="lower right")
-    #pl.show()
-'''
+    pl.xlim([0.0, 1.0])
+    pl.ylim([0.0, 1.0])
+    pl.xlabel('False Positive Rate')
+    pl.ylabel('True Positive Rate')
+    pl.title('Receiver operating characteristic example')
+    pl.legend(loc="lower right")
+    pl.show()

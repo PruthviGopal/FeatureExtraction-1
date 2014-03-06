@@ -15,30 +15,41 @@ from scipy.spatial.distance import pdist, squareform
 from scipy import exp
 import h5py as hpy
 from sklearn.metrics.pairwise import pairwise_distances as padis
+import copy
+from scipy import spatial
 # -------------------- Utility Functions -------------------------#
 
 '''
 Used to compute the gaussian kernel of a given matrix
 '''
 def gaussian(vec_one,vec_two, sigma=4):
-    return math.exp(-np.linalg.norm(vec_one.todense() - vec_two.todense(),2)**2/(2*sigma*sigma))
+    return exp(-spatial.distance.euclidean(vec_one.todense(),vec_two.todense())**2/(2*sigma*sigma))
+    #return math.exp(-np.linalg.norm(vec_one.todense() - vec_two.todense(),2)**2/(2*sigma*sigma))
 
 
 '''
 Project components onto new data
 '''
-def projectKernelComp(dataset,comp,numberOfDataPoints,numberOfFeatures):
+def projectKernelComp(dataset,comp,numberOfDataPoints,numberOfFeatures,sigma=4):
 
-    fData = sparse.dok_matrix( (numberOfFeatures,dataset.shape[1]),dtype = np.double)
+    fData = sparse.lil_matrix( (numberOfDataPoints,numberOfFeatures),dtype = np.float16)
     print(" ... beginning to project components onto data set")
     #now, we must project the chosen components onto the dataset
     for x in range(numberOfDataPoints):
         #We have now chosen a point in our dataset which is to be adapted
+        timePro = time.time()
         for index in range(numberOfFeatures):
-            tmp = 0
+            tmp = np.zeros( (numberOfDataPoints), dtype=np.float16)
             for i in range(numberOfDataPoints):
-                tmp += comp[index,i]*gaussian(dataset[:,i],dataset[:,x])
-            fData[index,x] = tmp
+                tmp[i] = exp( - padis(dataset[i,:], dataset[x,:],metric='euclidean')**2 / (2*sigma*sigma))
+            fData[x,index] = np.dot(comp[index],tmp)
+        print("Finished for point %d in %f" %(x,time.time() - timePro))
+        fData.eliminate_zeros()
+            #tmp = 0
+            #for i in range(numberOfDataPoints):
+                #fak = comp[index,i]
+                #tmp += fak*gaussian(dataset[i,:],dataset[x,:])
+            # = tmp
     print("....... projecting finished!")
     return fData.tocsr()
 
@@ -46,7 +57,9 @@ def projectKernelComp(dataset,comp,numberOfDataPoints,numberOfFeatures):
 
 # -------------------- Code -------------------------#
 
-def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4, chunkSize = 4):
+def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4, chunkSize = 5):
+    
+    
     print("___________")
     print("Setting up for Feature Extraction via Accelerated Kernel Feature Analysis")
     print(" ... %d features are to be extracted!" %(featureNumber))
@@ -57,23 +70,26 @@ def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4, chunkSize = 4):
     print(".....")
     n = dataset.shape[0]
     numberOfFeatures = dataset.shape[1]
+    
+
     # Now we can compute the Gram Matrix
     print("The loaded file contains %d samples points and %d dimensions " % (n,numberOfFeatures ))
     print(".....")
     # Now we need to create a file that holds the Gram Matrix
-    files = hpy.File("akfaData","w")
-    kernelMatrix = files.create_dataset("kernelMat", (n,n) , dtype=np.float32)
+    #files = hpy.File("akfaData","w")
+    #kernelMatrix = files.create_dataset("kernelMat", (n,n) , dtype=np.float32)
+    kernelMatrix = np.ones( (n,n), dtype=np.float16)
     print(".....")
     print("Creating new Sparse Matrix for holding the Gram Matrix")
     print("For a large data set, this may take a while ...")
     chunk = n/chunkSize
+    restChunk = n%chunkSize
     print("Chunking data set into %d different sents" % (chunkSize))
     print(".... now starting to compute %d x %d blocks of Gram Matrix" % (chunk,chunk) )
     timeBef = time.time()
     for i in range(chunkSize):
-        for j in range(chunkSize):
-            kernelMatrix[i*chunk:(i+1)*chunk,j*chunk:(j+1)*chunk] = exp( - padis(dataset[i*chunk:(i+1)*chunk,:], dataset[j*chunk:(j+1)*chunk,:]) / 2*sigma*sigma)
-            #tmp = exp( - padis(dataset[i*chunk:(i+1)*chunk,:], dataset[j*chunk:(j+1)*chunk,:]) / 2*sigma*sigma)
+        for j in range(chunkSize): 
+            kernelMatrix[(i*chunk):((i+1)*chunk),(j*chunk):((j+1)*chunk)] = exp( - padis(dataset[i*chunk:(i+1)*chunk,:], dataset[j*chunk:(j+1)*chunk,:],metric='euclidean')**2 / (2*sigma*sigma))
         print("  ... Finished the first %d rows" % ((i+1)*chunk))
     print("It took %f to compute the Gram matrix" % (time.time()-timeBef))
     print(".....")
@@ -95,13 +111,13 @@ def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4, chunkSize = 4):
     timeBefore = time.time()
     # Now we need variables to hold the extracted components
     idx = 0
-    idxVectors = np.zeros( (featureNumber,n),dtype = np.double)
+    idxVectors = np.zeros( (featureNumber,n),dtype = np.float16)
 
     # Now we can start to extract features
     for i in range(featureNumber):
         print("___________________")
         print("Starting extracting of feature %d" % (i+1))
-        # Extract i-th feature using (11)
+        # Extract i-th feature using (11)x
         maxValue = 0
         maxIn = 0
         timeIn = time.time()
@@ -125,17 +141,15 @@ def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4, chunkSize = 4):
         print("_____ ... which took %f " % (time.time()-timeIn))
         if i == featureNumber-1:
             continue
-        idxVec = kernelMatrix[:,idx]
-        print(idxVec.shape)
-        print(idxVec[0])
+        idxVec = copy.copy(kernelMatrix[:,idx])
+
         print("Now updating the Gram Matrix")
         timeBef = time.time()
+        print(idxVec)
         # Now we must use equation (10) to update the Kernel Matrix K
         for i in range(n):
             fak = idxVec[i]/idxVec[idx]
             kernelMatrix[:,i] = np.subtract(kernelMatrix[:,i],idxVec*fak)
-            if ( i % 1000 == 0):
-                print("For first %d it took %f" % (i,time.time()-timeBef))  
         #K_new = sparse.dok_matrix( (n,n),dtype = np.double)
         #print("Updating Gram Matrix!")
         #for j in range(n):
@@ -145,7 +159,7 @@ def akfa(dataset, featureNumber=2, delta = 0.0, sigma=4, chunkSize = 4):
         #K.eliminate_zeros()
         print("Update successfull - in %f " % (time.time()-timeBef))
         print(" ------> continue!")
-        
+    
     tmpTime = time.time()
     print("__________")
     print("It took that many seconds to compute the data with AKFA: %f" % (tmpTime-timeBefore))
