@@ -185,7 +185,6 @@ def akfa(dataset, n_features=2, delta = 0.0, sigma=4, chunkSize = 5):
     print("__________")
     print("It took that many seconds to compute the data with AKFA: %f" % (tmpTime-timeBefore))
     print("__________")
-    exit()
     finalData = projectKernelComp(dataset, idx_vectors)
     print("__________")
     print("It took that many seconds to project the components onto the data: %f" % (time.time()-tmpTime))

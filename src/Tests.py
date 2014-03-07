@@ -60,7 +60,7 @@ if not test:
     numberOfTestSamples = X_test.shape[0]
     print("The read file contains %d samples points and  %d features " % (numberOfSamples, numberOfFeatures))
     
-    finalData, comps = akfa(X_train,1,0.5,4,3)
+    finalData, comps = akfa(X_train,10,0.5,4,3)
     
     print(".....")
     print("Re-projecting Test Data set")
