@@ -156,7 +156,7 @@ def gen_Circle(small = 30, med = 60, big = 60, delta = 1, smallMax = 1, medMax =
             val[i,0] = x
             val[i,1] = y
             i = i + 1
-        
+       
     while i < (small+med+big):
         x = random.uniform(-bigMax,bigMax)
         y = random.uniform(-bigMax,bigMax)

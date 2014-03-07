@@ -1,0 +1,138 @@
+The read file contains 42999 samples points and  545333 features 
+___________
+Setting up for Feature Extraction via Accelerated Kernel Feature Analysis
+ ... 10 features are to be extracted!
+Data set begin loaded...
+.....
+.....
+Loading of data set is completed
+.....
+The loaded file contains 42999 samples points and 545333 dimensions 
+.....
+.....
+Creating new Sparse Matrix for holding the Gram Matrix
+For a large data set, this may take a while ...
+Chunking data set into 3 different sents
+.... now starting to compute 14333 x 14333 blocks of Gram Matrix
+  ... Finished the first 14333 rows
+  ... Finished the first 28666 rows
+  ... Finished the first 42999 rows
+It took 872.588165 to compute the Gram matrix
+.....
+Therefore: Done computing the Gram Matrix
+WUHU!!
+......
+............
+Will continue with extracting features now!
+___________________
+Starting extracting of feature 1
+....
+........
+__Feature found!
+_____ ... which took 80.983443 
+Now updating the Gram Matrix
+Update successfull - in 212.472567 
+ ------> continue!
+___________________
+Starting extracting of feature 2
+....
+........
+__Feature found!
+_____ ... which took 69.061830 
+Now updating the Gram Matrix
+Update successfull - in 220.306591 
+ ------> continue!
+___________________
+Starting extracting of feature 3
+....
+........
+__Feature found!
+_____ ... which took 86.499757 
+Now updating the Gram Matrix
+Update successfull - in 232.205543 
+ ------> continue!
+___________________
+Starting extracting of feature 4
+....
+........
+__Feature found!
+_____ ... which took 107.105413 
+Now updating the Gram Matrix
+Update successfull - in 226.333648 
+ ------> continue!
+___________________
+Starting extracting of feature 5
+....
+........
+__Feature found!
+_____ ... which took 121.595753 
+Now updating the Gram Matrix
+Update successfull - in 300.950543 
+ ------> continue!
+___________________
+Starting extracting of feature 6
+....
+........
+__Feature found!
+_____ ... which took 123.640482 
+Now updating the Gram Matrix
+Update successfull - in 227.685831 
+ ------> continue!
+___________________
+Starting extracting of feature 7
+....
+........
+__Feature found!
+_____ ... which took 137.724117 
+Now updating the Gram Matrix
+Update successfull - in 287.201671 
+ ------> continue!
+___________________
+Starting extracting of feature 8
+....
+........
+__Feature found!
+_____ ... which took 139.231752 
+Now updating the Gram Matrix
+Update successfull - in 248.383103 
+ ------> continue!
+___________________
+Starting extracting of feature 9
+....
+........
+__Feature found!
+_____ ... which took 143.877128 
+Now updating the Gram Matrix
+Update successfull - in 382.826692 
+ ------> continue!
+___________________
+Starting extracting of feature 10
+....
+........
+__Feature found!
+_____ ... which took 142.197471 
+__________
+It took that many seconds to compute the data with AKFA: 3490.642479
+__________
+ ... beginning to project components onto data set
+....... projecting finished!
+__________
+It took that many seconds to project the components onto the data: 18638.889738
+__________
+.....
+Re-projecting Test Data set
+ ... beginning to project components onto data set
+....... projecting finished!
+Done projecting, start training, damn it!
+Start training
+Classifier prepared
+Fitting the classifier to data successful in 334.776212
+{'kernel': 'rbf', 'C': 1.0, 'verbose': False, 'probability': True, 'degree': 3, 'shrinking': True, 'max_iter': -1, 'tol': 0.1, 'cache_size': 200, 'coef0': 0.0, 'gamma': 0.0, 'class_weight': None}
+Area under the ROC curve for NORMAL LEARNING: 0.964401
+________
+OK, now do the same thing for projected data!
+________
+Classifier prepared
+Fitting the classifier to data successful in 135.696992
+{'kernel': 'rbf', 'C': 1.0, 'verbose': False, 'probability': True, 'degree': 3, 'shrinking': True, 'max_iter': -1, 'tol': 0.1, 'cache_size': 200, 'coef0': 0.0, 'gamma': 0.0, 'class_weight': None}
+Area under the ROC curve with REDUCED DATA SET: 0.578497
