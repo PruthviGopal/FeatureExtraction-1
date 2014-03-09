@@ -7,7 +7,7 @@ from sklearn.datasets import load_svmlight_file
 from sklearn import svm
 from sklearn.metrics import roc_curve, auc
 import pylab as pl
-from AKFA import akfa, projectKernelComp
+from AKFA import akfa, projectKernelComp, buildGramMatrix
 import numpy as np
 from scipy import sparse
 import Util
@@ -34,9 +34,11 @@ if test:
     pl.plot(x[range(small+med,small+med+big),0],x[range(small+med,small+med+big),1], "go")
     numberOfSamples = x.shape[0]
     numberOfFeatures = x.shape[1]
-    print("The read file contains %d samples points and  %d features " % (numberOfSamples, numberOfFeatures))
-    data,y = akfa(csr_matrix(x),2,0.5,4,5)
     
+    K = buildGramMatrix(x, numberOfSamples, 5, 4)
+    print("The read file contains %d samples points and  %d features " % (numberOfSamples, numberOfFeatures))
+    y = akfa(dataset=csr_matrix(x),n_features=2,delta=0.5,sigma=4,chunkSize=5,isMatrixGiven=True,K=K)
+    exit()
     x1 = data[:,0].todense()
     y1 = data[:,1].todense()
     pl.figure(1)
@@ -53,14 +55,26 @@ if not test:
     numberOfSamples = X_train.shape[0]
     numberOfFeatures = X_train.shape[1]
     
-    #print(type(X_train))
-    #print(isinstance(X_train,sparse.csr_matrix))
+    
     X_test, y_test = load_svmlight_file("./data/dataset_1/test",n_features=numberOfFeatures)
-    #X_val, y_val = load_svmlight_file("./data/dataset_3/validate",n_features=X_train.shape[1])
     numberOfTestSamples = X_test.shape[0]
     print("The read file contains %d samples points and  %d features " % (numberOfSamples, numberOfFeatures))
     
-    finalData, comps = akfa(X_train,10,0.5,4,3)
+    
+    # 1 - Calculate Gram Matrix
+    # 2 - Calculate Components
+    # 3 - Project Components
+    # 4 - start learning
+    options = 1
+    
+    if options == 1:
+        mat = buildGramMatrix(dataset = X_train, n_samples=numberOfSamples, chunkSize = 3, sigma = 4)
+        np.save('./data/dataset_1/GramMatrix', mat)
+        exit()
+    elif options == 2:
+        comps = akfa(X_train,1,0.3,4,3,isMatrixGiven=True,K=np.load('./data/dataset_1/GramMatrix.npy'))
+        np.save('./data/dataset_1/components', comps)
+        exit()
     
     print(".....")
     print("Re-projecting Test Data set")
@@ -68,9 +82,7 @@ if not test:
     testData = projectKernelComp(X_test, comps, numberOfTestSamples, 10, 4)
     
     print("Done projecting, start training, damn it!")
-    #print(" ----- ")
-    #print(" Now choosing the first 100 vectors for testing")
-    #print(newSet.todense())
+    
     
     
     train = True

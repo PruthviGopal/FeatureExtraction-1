@@ -5,6 +5,9 @@ This file supports a module for doing ACCELERATED KERNEL FEATURE ANALYSIS on a g
 
 @author: Christoph Rauterberg
 '''
+
+
+
 # ---------- Imports ----------#
 import numpy as np
 from pylab import *
@@ -12,8 +15,52 @@ import time
 from scipy import sparse
 from sklearn.metrics.pairwise import pairwise_distances as padis
 import copy
-# -------------------- Code  -------------------------#
+# -----------------------------#
 
+
+
+# -------------------- Code  -------------------------#
+def buildGramMatrix(dataset, n_samples,chunkSize, sigma):
+    """ Compute the Gram Matrix of a given data set using a gaussian kernel.
+
+        Parameters
+        ----------
+        dataset: array-like, shape (n_samples, n_dimensions)
+            Data set, where n_samples in the number of samples
+            and n_dimensions is the number of dimensions.
+            
+        n_samples: number of data points in the data set
+        
+        chunkSize: The block size for building the Gram Matrix.
+            Restrain: n_samples % chunkSize = 0 !!
+            
+        sigma: Value used by the Gaussian Kernel
+            Default: 4
+
+        Returns
+        -------
+        kernelMatrix : numpy.array, shape (n_samples, n_samples)
+            The computed Gram Matrix
+    """
+    if n_samples % chunkSize != 0:
+        raise ValueError('The chunkSize must be a true divider of the number of samples')
+    kernelMatrix = np.ones( (n_samples,n_samples), dtype=np.float16)
+    print(".....")
+    print("Creating new Sparse Matrix for holding the Gram Matrix")
+    print("For a large data set, this may take a while ...")
+    chunk = n_samples/chunkSize
+    print("Chunking data set into %d different sets" % (chunkSize))
+    print(".... now starting to compute %d x %d blocks of Gram Matrix" % (chunk,chunk) )
+    timeBef = time.time()
+    for i in range(chunkSize):
+        for j in range(chunkSize):
+            kernelMatrix[(i*chunk):((i+1)*chunk),(j*chunk):((j+1)*chunk)] = exp( - padis(dataset[(i*chunk):((i+1)*chunk),:], dataset[(j*chunk):((j+1)*chunk),:],metric='euclidean')**2 / (2*sigma*sigma))
+        print("  ... Finished the first %d rows" % ((i+1)*chunk))
+    print("It took %f to compute the Gram matrix" % (time.time()-timeBef))
+    print(".....")
+    print("Therefore: Done computing the Gram Matrix")
+    print("WUHU!!")
+    return kernelMatrix
 
 def projectKernelComp(dataset,comp,sigma=4):
     """ Project the given data sets onto the given components.
@@ -51,7 +98,7 @@ def projectKernelComp(dataset,comp,sigma=4):
     return fData.tocsr()
 
 
-def akfa(dataset, n_features=2, delta = 0.0, sigma=4, chunkSize = 5):
+def akfa(dataset, n_features=2, delta = 0.0, sigma=4, chunkSize = 5,isMatrixGiven=False, K=None):
     """ Computes the Principal Components of a given data set.
 
         Parameters
@@ -73,6 +120,13 @@ def akfa(dataset, n_features=2, delta = 0.0, sigma=4, chunkSize = 5):
         chunkSize: Size of the blocks of the Gram Matrix that
             are to be calculated
             Default: 5 (for Standart-Testing-Set with 600 samples points
+        
+        isMatrixGiven: Boolean indicating if the Gram Matrix has already
+            been build.
+            Default: False
+            
+        K: Pre-calculated Gram Matrix for the given data set
+            Only used if isMatrixGiven is True
 
         Returns
         -------
@@ -91,7 +145,7 @@ def akfa(dataset, n_features=2, delta = 0.0, sigma=4, chunkSize = 5):
             Computer Society Conference on Computer IEEE 
             Vision and Pattern Recognition, IEEE.
     """
-    
+    allTime = time.time()
     print("___________")
     print("Setting up for Feature Extraction via Accelerated Kernel Feature Analysis")
     print(" ... %d features are to be extracted!" %(n_features))
@@ -102,30 +156,14 @@ def akfa(dataset, n_features=2, delta = 0.0, sigma=4, chunkSize = 5):
     print(".....")
     n_samples = dataset.shape[0]
     n_dimensions = dataset.shape[1]
-    
-
+    if isMatrixGiven:
+        kernelMatrix = K
+    else:
+        kernelMatrix = buildGramMatrix(dataset,n_samples,chunkSize, sigma)
     # Now we can compute the Gram Matrix
     print("The loaded file contains %d samples points and %d dimensions " % (n_samples,n_dimensions ))
     print(".....")
-    # Now we need to create a file that holds the Gram Matrix
-    #files = hpy.File("akfaData","w")
-    #kernelMatrix = files.create_dataset("kernelMat", (n_samples,n_samples) , dtype=np.float32)
-    kernelMatrix = np.ones( (n_samples,n_samples), dtype=np.float16)
-    print(".....")
-    print("Creating new Sparse Matrix for holding the Gram Matrix")
-    print("For a large data set, this may take a while ...")
-    chunk = n_samples/chunkSize
-    print("Chunking data set into %d different sets" % (chunkSize))
-    print(".... now starting to compute %d x %d blocks of Gram Matrix" % (chunk,chunk) )
-    timeBef = time.time()
-    for i in range(chunkSize):
-        for j in range(chunkSize): 
-            kernelMatrix[(i*chunk):((i+1)*chunk),(j*chunk):((j+1)*chunk)] = exp( - padis(dataset[i*chunk:(i+1)*chunk,:], dataset[j*chunk:(j+1)*chunk,:],metric='euclidean')**2 / (2*sigma*sigma))
-        print("  ... Finished the first %d rows" % ((i+1)*chunk))
-    print("It took %f to compute the Gram matrix" % (time.time()-timeBef))
-    print(".....")
-    print("Therefore: Done computing the Gram Matrix")
-    print("WUHU!!")
+    
     print("......")
     print("............")
     print("Will continue with extracting features now!")
@@ -181,15 +219,15 @@ def akfa(dataset, n_features=2, delta = 0.0, sigma=4, chunkSize = 5):
         print("Update successfull - in %f " % (time.time()-timeBef))
         print(" ------> continue!")
     
-    tmpTime = time.time()
+
     print("__________")
-    print("It took that many seconds to compute the data with AKFA: %f" % (tmpTime-timeBefore))
+    print("It took that many seconds to compute the data with AKFA: %f" % (time.time()-allTime))
     print("__________")
-    finalData = projectKernelComp(dataset, idx_vectors)
-    print("__________")
-    print("It took that many seconds to project the components onto the data: %f" % (time.time()-tmpTime))
-    print("__________")
-    return finalData, idx_vectors
+    #finalData = projectKernelComp(dataset, idx_vectors)
+    #print("__________")
+    #print("It took that many seconds to project the components onto the data: %f" % (time.time()-tmpTime))
+    #print("__________")
+    return idx_vectors
 
 
     
