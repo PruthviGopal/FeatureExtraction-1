@@ -60,21 +60,20 @@ if not test:
     numberOfTestSamples = X_test.shape[0]
     print("The read file contains %d samples points and  %d features " % (numberOfSamples, numberOfFeatures))
     
-    
+    '''
     # 1 - Calculate Gram Matrix
     # 2 - Calculate Components
     # 3 - Project Components
     # 4 - start learning
     options = 1
     
-    if options == 1:
-        mat = buildGramMatrix(dataset = X_train, n_samples=numberOfSamples, chunkSize = 3, sigma = 4)
-        np.save('./data/dataset_1/GramMatrix', mat)
-        exit()
-    elif options == 2:
-        comps = akfa(X_train,1,0.3,4,3,isMatrixGiven=True,K=np.load('./data/dataset_1/GramMatrix.npy'))
-        np.save('./data/dataset_1/components', comps)
-        exit()
+    #if options == 1:
+    mat = buildGramMatrix(dataset = X_train, n_samples=numberOfSamples, chunkSize = 3, sigma = 4)
+    np.save('./data/dataset_1/GramMatrix', mat)
+    #elif options == 2:
+    comps = akfa(X_train,200,0.0,4,3,isMatrixGiven=True,K=np.load('./data/dataset_1/GramMatrix.npy'))
+    np.save('./data/dataset_1/components', comps)
+    exit()
     
     print(".....")
     print("Re-projecting Test Data set")
@@ -82,11 +81,17 @@ if not test:
     testData = projectKernelComp(X_test, comps, numberOfTestSamples, 10, 4)
     
     print("Done projecting, start training, damn it!")
-    
+    '''
     
     
     train = True
-    
+    comps = np.load('./data/dataset_1/components.npy')
+    print("Successfully found components in file")
+    print(comps.shape)
+    if ( comps.shape[0] != 200):
+        print("ERROR")
+        print(comps.shape)
+        exit()
     
     # Run classifier
     if train:
@@ -123,7 +128,10 @@ if not test:
         print("________")
         print("OK, now do the same thing for projected data!")
         print("________")
-        # _______ TRAINING FOR REPORJECTED DATA
+        # _______ TRAINING FOR REPORJECTED DATA ___________________________________________________________________________ features = 50
+        print("START FOR 50 FEATURES")
+        finalData = projectKernelComp(X_train, comps[0:50])
+        testData = projectKernelComp(X_test, comps[0:50])
         
         classifier = svm.SVC(C=1.0,kernel='rbf', probability=True, tol=0.1)
         print("Classifier prepared")
@@ -139,8 +147,104 @@ if not test:
         fpr, tpr, thresholds = roc_curve(y_test,probas[:,1])
         roc_auc = auc(fpr, tpr)
         print "Area under the ROC curve with REDUCED DATA SET: %f" % roc_auc
-        pl.figure(0)
-        pl.title("ROC for projected learning")
+        pl.figure(1)
+        pl.title("ROC for projected learning with 50 features")
+        # Plot ROC curve
+        pl.clf()
+        pl.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % roc_auc)
+    
+        pl.xlim([0.0, 1.0])
+        pl.ylim([0.0, 1.0])
+        pl.xlabel('False Positive Rate')
+        pl.ylabel('True Positive Rate')
+        pl.title('Receiver operating characteristic example')
+        pl.legend(loc="lower right")
+        
+        # _______ TRAINING FOR REPORJECTED DATA ___________________________________________________________________________ features = 100
+        print("START FOR 50 FEATURES")
+        finalData = projectKernelComp(X_train, comps[0:100])
+        testData = projectKernelComp(X_test, comps[0:100])
+        
+        classifier = svm.SVC(C=1.0,kernel='rbf', probability=True, tol=0.1)
+        print("Classifier prepared")
+        timeCla = time.time()
+        classifier = classifier.fit(finalData, y_train)
+        print("Fitting the classifier to data successful in %f" % (time.time()-timeCla))
+        # now we can predict
+        probas = classifier.predict_proba(testData)
+        print(classifier.get_params())
+    
+        
+        # Compute ROC curve and area the curve
+        fpr, tpr, thresholds = roc_curve(y_test,probas[:,1])
+        roc_auc = auc(fpr, tpr)
+        print "Area under the ROC curve with REDUCED DATA SET: %f" % roc_auc
+        pl.figure(2)
+        pl.title("ROC for projected learning with 100 features")
+        # Plot ROC curve
+        pl.clf()
+        pl.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % roc_auc)
+    
+        pl.xlim([0.0, 1.0])
+        pl.ylim([0.0, 1.0])
+        pl.xlabel('False Positive Rate')
+        pl.ylabel('True Positive Rate')
+        pl.title('Receiver operating characteristic example')
+        pl.legend(loc="lower right")
+        
+        # _______ TRAINING FOR REPORJECTED DATA ___________________________________________________________________________ features = 150
+        print("START FOR 50 FEATURES")
+        finalData = projectKernelComp(X_train, comps[0:150])
+        testData = projectKernelComp(X_test, comps[0:150])
+        
+        classifier = svm.SVC(C=1.0,kernel='rbf', probability=True, tol=0.1)
+        print("Classifier prepared")
+        timeCla = time.time()
+        classifier = classifier.fit(finalData, y_train)
+        print("Fitting the classifier to data successful in %f" % (time.time()-timeCla))
+        # now we can predict
+        probas = classifier.predict_proba(testData)
+        print(classifier.get_params())
+    
+        
+        # Compute ROC curve and area the curve
+        fpr, tpr, thresholds = roc_curve(y_test,probas[:,1])
+        roc_auc = auc(fpr, tpr)
+        print "Area under the ROC curve with REDUCED DATA SET: %f" % roc_auc
+        pl.figure(3)
+        pl.title("ROC for projected learning with 150 features")
+        # Plot ROC curve
+        pl.clf()
+        pl.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % roc_auc)
+    
+        pl.xlim([0.0, 1.0])
+        pl.ylim([0.0, 1.0])
+        pl.xlabel('False Positive Rate')
+        pl.ylabel('True Positive Rate')
+        pl.title('Receiver operating characteristic example')
+        pl.legend(loc="lower right")
+        
+        # _______ TRAINING FOR REPORJECTED DATA ___________________________________________________________________________ features = 200
+        print("START FOR 50 FEATURES")
+        finalData = projectKernelComp(X_train, comps)
+        testData = projectKernelComp(X_test, comps)
+        
+        classifier = svm.SVC(C=1.0,kernel='rbf', probability=True, tol=0.1)
+        print("Classifier prepared")
+        timeCla = time.time()
+        classifier = classifier.fit(finalData, y_train)
+        print("Fitting the classifier to data successful in %f" % (time.time()-timeCla))
+        # now we can predict
+        probas = classifier.predict_proba(testData)
+        print(classifier.get_params())
+    
+        
+        # Compute ROC curve and area the curve
+        fpr, tpr, thresholds = roc_curve(y_test,probas[:,1])
+        roc_auc = auc(fpr, tpr)
+        print "Area under the ROC curve with REDUCED DATA SET: %f" % roc_auc
+        pl.figure(4)
+        pl.title("ROC for projected learning with 200 features")
         # Plot ROC curve
         pl.clf()
         pl.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % roc_auc)

@@ -84,6 +84,7 @@ def projectKernelComp(dataset,comp,sigma=4):
     """
     numberOfDataPoints = dataset.shape[0]
     numberOfFeatures = comp.shape[0]
+    print(".. read Matrix contains %f features" %(numberOfFeatures))
     fData = sparse.lil_matrix( (numberOfDataPoints,numberOfFeatures),dtype = np.float16)
     print(" ... beginning to project components onto data set")
     #now, we must project the chosen components onto the dataset
