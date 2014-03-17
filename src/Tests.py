@@ -60,7 +60,7 @@ if not test:
     
     X_test, y_test = load_svmlight_file("./data/dataset_1/test",n_features=numberOfFeatures)
     X_test = X_test[0:10000,:]
-    y_test = y_test[0:10000,:]
+    y_test = y_test[0:10000]
     numberOfTestSamples = X_test.shape[0]
     print("The read file contains %d samples points and  %d features " % (numberOfSamples, numberOfFeatures))
     
