@@ -93,7 +93,8 @@ def projectKernelComp(dataset,comp,sigma=4):
         timePro = time.time()
         for index in range(numberOfFeatures):
             fData[x,index] = np.dot(comp[index],exp( - padis(dataset, dataset[x,:],metric='euclidean')**2 / (2*sigma*sigma)))
-        #print("Finished for point %d in %f" %(x,time.time() - timePro))
+        if ( x == 0):
+            print("Finished for point %d in %f" %(x,time.time() - timePro))
 
     print("....... projecting finished!")
     return fData.tocsr()

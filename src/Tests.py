@@ -51,13 +51,17 @@ if test:
     
 if not test:  
     
-    X_train, y_train = load_svmlight_file("./data/dataset_1/train")
+    X_train, y_train = load_svmlight_file("./data/dataset_2/train")
+    X_train = X_train[0:10000,:]
+    y_train = y_train[0:10000]
     numberOfSamples = X_train.shape[0]
     numberOfFeatures = X_train.shape[1]
     
     
-    X_test, y_test = load_svmlight_file("./data/dataset_1/test",n_features=numberOfFeatures)
+    X_test, y_test = load_svmlight_file("./data/dataset_2/test",n_features=numberOfFeatures)
+    X_test = X_test[0:10000,:]
     numberOfTestSamples = X_test.shape[0]
+    y_test = y_test[0:10000]
     print("The read file contains %d samples points and  %d features " % (numberOfSamples, numberOfFeatures))
     
     '''
@@ -68,24 +72,23 @@ if not test:
     options = 1
     
     #if options == 1:
-    mat = buildGramMatrix(dataset = X_train, n_samples=numberOfSamples, chunkSize = 3, sigma = 4)
-    np.save('./data/dataset_1/GramMatrix', mat)
+    mat = buildGramMatrix(dataset = X_train, n_samples=numberOfSamples, chunkSize = 4, sigma = 4)
+    np.save('./data/dataset_2/GramMatrix', mat)
     #elif options == 2:
-    comps = akfa(X_train,200,0.0,4,3,isMatrixGiven=True,K=np.load('./data/dataset_1/GramMatrix.npy'))
-    np.save('./data/dataset_1/components', comps)
-    exit()
+    comps = akfa(X_train,200,0.0,4,3,isMatrixGiven=True,K=np.load('./data/dataset_2/GramMatrix.npy'))
+    np.save('./data/dataset_2/components', comps)
     
     print(".....")
     print("Re-projecting Test Data set")
     
-    testData = projectKernelComp(X_test, comps, numberOfTestSamples, 10, 4)
+    #testData = projectKernelComp(X_test, comps, numberOfTestSamples, 10, 4)
     
     print("Done projecting, start training, damn it!")
+   
     '''
     
-    
     train = True
-    comps = np.load('./data/dataset_1/components.npy')
+    comps = np.load('./data/dataset_2/components.npy')
     print("Successfully found components in file")
     print(comps.shape)
     if ( comps.shape[0] != 200):

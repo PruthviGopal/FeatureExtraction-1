@@ -1,0 +1,1827 @@
+The read file contains 42999 samples points and  545333 features 
+.....
+Creating new Sparse Matrix for holding the Gram Matrix
+For a large data set, this may take a while ...
+Chunking data set into 3 different sets
+.... now starting to compute 14333 x 14333 blocks of Gram Matrix
+  ... Finished the first 14333 rows
+  ... Finished the first 28666 rows
+  ... Finished the first 42999 rows
+It took 156.285834 to compute the Gram matrix
+.....
+Therefore: Done computing the Gram Matrix
+WUHU!!
+___________
+Setting up for Feature Extraction via Accelerated Kernel Feature Analysis
+ ... 200 features are to be extracted!
+Data set begin loaded...
+.....
+.....
+Loading of data set is completed
+.....
+The loaded file contains 42999 samples points and 545333 dimensions 
+.....
+......
+............
+Will continue with extracting features now!
+___________________
+Starting extracting of feature 1
+....
+........
+__Feature found!
+_____ ... which took 34.238220 
+Now updating the Gram Matrix
+Update successfull - in 112.553454 
+ ------> continue!
+___________________
+Starting extracting of feature 2
+....
+........
+__Feature found!
+_____ ... which took 47.598196 
+Now updating the Gram Matrix
+Update successfull - in 118.512482 
+ ------> continue!
+___________________
+Starting extracting of feature 3
+....
+........
+__Feature found!
+_____ ... which took 59.410015 
+Now updating the Gram Matrix
+Update successfull - in 126.951066 
+ ------> continue!
+___________________
+Starting extracting of feature 4
+....
+........
+__Feature found!
+_____ ... which took 73.530772 
+Now updating the Gram Matrix
+Update successfull - in 122.852167 
+ ------> continue!
+___________________
+Starting extracting of feature 5
+....
+........
+__Feature found!
+_____ ... which took 84.063918 
+Now updating the Gram Matrix
+Update successfull - in 176.870358 
+ ------> continue!
+___________________
+Starting extracting of feature 6
+....
+........
+__Feature found!
+_____ ... which took 85.113921 
+Now updating the Gram Matrix
+Update successfull - in 123.714115 
+ ------> continue!
+___________________
+Starting extracting of feature 7
+....
+........
+__Feature found!
+_____ ... which took 94.780966 
+Now updating the Gram Matrix
+Update successfull - in 167.362970 
+ ------> continue!
+___________________
+Starting extracting of feature 8
+....
+........
+__Feature found!
+_____ ... which took 96.211786 
+Now updating the Gram Matrix
+Update successfull - in 139.716550 
+ ------> continue!
+___________________
+Starting extracting of feature 9
+....
+........
+__Feature found!
+_____ ... which took 99.448567 
+Now updating the Gram Matrix
+Update successfull - in 235.608331 
+ ------> continue!
+___________________
+Starting extracting of feature 10
+....
+........
+__Feature found!
+_____ ... which took 98.254239 
+Now updating the Gram Matrix
+Update successfull - in 218.918627 
+ ------> continue!
+___________________
+Starting extracting of feature 11
+....
+........
+__Feature found!
+_____ ... which took 98.771526 
+Now updating the Gram Matrix
+Update successfull - in 141.489504 
+ ------> continue!
+___________________
+Starting extracting of feature 12
+....
+........
+__Feature found!
+_____ ... which took 101.640611 
+Now updating the Gram Matrix
+Update successfull - in 141.183947 
+ ------> continue!
+___________________
+Starting extracting of feature 13
+....
+........
+__Feature found!
+_____ ... which took 104.019025 
+Now updating the Gram Matrix
+Update successfull - in 144.447197 
+ ------> continue!
+___________________
+Starting extracting of feature 14
+....
+........
+__Feature found!
+_____ ... which took 108.239538 
+Now updating the Gram Matrix
+Update successfull - in 184.169676 
+ ------> continue!
+___________________
+Starting extracting of feature 15
+....
+........
+__Feature found!
+_____ ... which took 108.503927 
+Now updating the Gram Matrix
+Update successfull - in 150.797122 
+ ------> continue!
+___________________
+Starting extracting of feature 16
+....
+........
+__Feature found!
+_____ ... which took 109.636990 
+Now updating the Gram Matrix
+Update successfull - in 197.189034 
+ ------> continue!
+___________________
+Starting extracting of feature 17
+....
+........
+__Feature found!
+_____ ... which took 109.577180 
+Now updating the Gram Matrix
+Update successfull - in 241.579630 
+ ------> continue!
+___________________
+Starting extracting of feature 18
+....
+........
+__Feature found!
+_____ ... which took 109.731150 
+Now updating the Gram Matrix
+Update successfull - in 157.549610 
+ ------> continue!
+___________________
+Starting extracting of feature 19
+....
+........
+__Feature found!
+_____ ... which took 111.217311 
+Now updating the Gram Matrix
+Update successfull - in 222.323024 
+ ------> continue!
+___________________
+Starting extracting of feature 20
+....
+........
+__Feature found!
+_____ ... which took 110.959288 
+Now updating the Gram Matrix
+Update successfull - in 160.776054 
+ ------> continue!
+___________________
+Starting extracting of feature 21
+....
+........
+__Feature found!
+_____ ... which took 112.171031 
+Now updating the Gram Matrix
+Update successfull - in 244.468100 
+ ------> continue!
+___________________
+Starting extracting of feature 22
+....
+........
+__Feature found!
+_____ ... which took 111.642706 
+Now updating the Gram Matrix
+Update successfull - in 187.879123 
+ ------> continue!
+___________________
+Starting extracting of feature 23
+....
+........
+__Feature found!
+_____ ... which took 111.952007 
+Now updating the Gram Matrix
+Update successfull - in 154.549491 
+ ------> continue!
+___________________
+Starting extracting of feature 24
+....
+........
+__Feature found!
+_____ ... which took 113.179626 
+Now updating the Gram Matrix
+Update successfull - in 182.649947 
+ ------> continue!
+___________________
+Starting extracting of feature 25
+....
+........
+__Feature found!
+_____ ... which took 113.751905 
+Now updating the Gram Matrix
+Update successfull - in 162.523836 
+ ------> continue!
+___________________
+Starting extracting of feature 26
+....
+........
+__Feature found!
+_____ ... which took 115.455788 
+Now updating the Gram Matrix
+Update successfull - in 196.504082 
+ ------> continue!
+___________________
+Starting extracting of feature 27
+....
+........
+__Feature found!
+_____ ... which took 116.107914 
+Now updating the Gram Matrix
+Update successfull - in 188.498715 
+ ------> continue!
+___________________
+Starting extracting of feature 28
+....
+........
+__Feature found!
+_____ ... which took 116.427751 
+Now updating the Gram Matrix
+Update successfull - in 197.536630 
+ ------> continue!
+___________________
+Starting extracting of feature 29
+....
+........
+__Feature found!
+_____ ... which took 116.985670 
+Now updating the Gram Matrix
+Update successfull - in 173.801124 
+ ------> continue!
+___________________
+Starting extracting of feature 30
+....
+........
+__Feature found!
+_____ ... which took 117.616342 
+Now updating the Gram Matrix
+Update successfull - in 199.867278 
+ ------> continue!
+___________________
+Starting extracting of feature 31
+....
+........
+__Feature found!
+_____ ... which took 118.334624 
+Now updating the Gram Matrix
+Update successfull - in 177.860037 
+ ------> continue!
+___________________
+Starting extracting of feature 32
+....
+........
+__Feature found!
+_____ ... which took 118.636853 
+Now updating the Gram Matrix
+Update successfull - in 177.301704 
+ ------> continue!
+___________________
+Starting extracting of feature 33
+....
+........
+__Feature found!
+_____ ... which took 119.393366 
+Now updating the Gram Matrix
+Update successfull - in 204.494991 
+ ------> continue!
+___________________
+Starting extracting of feature 34
+....
+........
+__Feature found!
+_____ ... which took 119.493502 
+Now updating the Gram Matrix
+Update successfull - in 216.148985 
+ ------> continue!
+___________________
+Starting extracting of feature 35
+....
+........
+__Feature found!
+_____ ... which took 119.957380 
+Now updating the Gram Matrix
+Update successfull - in 171.561909 
+ ------> continue!
+___________________
+Starting extracting of feature 36
+....
+........
+__Feature found!
+_____ ... which took 120.532217 
+Now updating the Gram Matrix
+Update successfull - in 194.580237 
+ ------> continue!
+___________________
+Starting extracting of feature 37
+....
+........
+__Feature found!
+_____ ... which took 121.010480 
+Now updating the Gram Matrix
+Update successfull - in 228.166098 
+ ------> continue!
+___________________
+Starting extracting of feature 38
+....
+........
+__Feature found!
+_____ ... which took 121.113976 
+Now updating the Gram Matrix
+Update successfull - in 250.312751 
+ ------> continue!
+___________________
+Starting extracting of feature 39
+....
+........
+__Feature found!
+_____ ... which took 120.530384 
+Now updating the Gram Matrix
+Update successfull - in 176.222214 
+ ------> continue!
+___________________
+Starting extracting of feature 40
+....
+........
+__Feature found!
+_____ ... which took 122.167785 
+Now updating the Gram Matrix
+Update successfull - in 173.694549 
+ ------> continue!
+___________________
+Starting extracting of feature 41
+....
+........
+__Feature found!
+_____ ... which took 123.777248 
+Now updating the Gram Matrix
+Update successfull - in 183.649207 
+ ------> continue!
+___________________
+Starting extracting of feature 42
+....
+........
+__Feature found!
+_____ ... which took 124.924467 
+Now updating the Gram Matrix
+Update successfull - in 224.596399 
+ ------> continue!
+___________________
+Starting extracting of feature 43
+....
+........
+__Feature found!
+_____ ... which took 125.348473 
+Now updating the Gram Matrix
+Update successfull - in 207.340807 
+ ------> continue!
+___________________
+Starting extracting of feature 44
+....
+........
+__Feature found!
+_____ ... which took 125.135450 
+Now updating the Gram Matrix
+Update successfull - in 238.905346 
+ ------> continue!
+___________________
+Starting extracting of feature 45
+....
+........
+__Feature found!
+_____ ... which took 125.071964 
+Now updating the Gram Matrix
+Update successfull - in 252.322306 
+ ------> continue!
+___________________
+Starting extracting of feature 46
+....
+........
+__Feature found!
+_____ ... which took 124.692103 
+Now updating the Gram Matrix
+Update successfull - in 201.231694 
+ ------> continue!
+___________________
+Starting extracting of feature 47
+....
+........
+__Feature found!
+_____ ... which took 125.449115 
+Now updating the Gram Matrix
+Update successfull - in 196.013273 
+ ------> continue!
+___________________
+Starting extracting of feature 48
+....
+........
+__Feature found!
+_____ ... which took 125.817916 
+Now updating the Gram Matrix
+Update successfull - in 211.789201 
+ ------> continue!
+___________________
+Starting extracting of feature 49
+....
+........
+__Feature found!
+_____ ... which took 125.987317 
+Now updating the Gram Matrix
+Update successfull - in 236.179375 
+ ------> continue!
+___________________
+Starting extracting of feature 50
+....
+........
+__Feature found!
+_____ ... which took 126.001348 
+Now updating the Gram Matrix
+Update successfull - in 192.669979 
+ ------> continue!
+___________________
+Starting extracting of feature 51
+....
+........
+__Feature found!
+_____ ... which took 126.835135 
+Now updating the Gram Matrix
+Update successfull - in 234.251694 
+ ------> continue!
+___________________
+Starting extracting of feature 52
+....
+........
+__Feature found!
+_____ ... which took 126.850089 
+Now updating the Gram Matrix
+Update successfull - in 252.476365 
+ ------> continue!
+___________________
+Starting extracting of feature 53
+....
+........
+__Feature found!
+_____ ... which took 126.800655 
+Now updating the Gram Matrix
+Update successfull - in 253.335796 
+ ------> continue!
+___________________
+Starting extracting of feature 54
+....
+........
+__Feature found!
+_____ ... which took 127.220015 
+Now updating the Gram Matrix
+Update successfull - in 193.735762 
+ ------> continue!
+___________________
+Starting extracting of feature 55
+....
+........
+__Feature found!
+_____ ... which took 127.556614 
+Now updating the Gram Matrix
+Update successfull - in 208.917139 
+ ------> continue!
+___________________
+Starting extracting of feature 56
+....
+........
+__Feature found!
+_____ ... which took 127.785527 
+Now updating the Gram Matrix
+Update successfull - in 222.998914 
+ ------> continue!
+___________________
+Starting extracting of feature 57
+....
+........
+__Feature found!
+_____ ... which took 127.936536 
+Now updating the Gram Matrix
+Update successfull - in 227.792291 
+ ------> continue!
+___________________
+Starting extracting of feature 58
+....
+........
+__Feature found!
+_____ ... which took 127.938695 
+Now updating the Gram Matrix
+Update successfull - in 189.719029 
+ ------> continue!
+___________________
+Starting extracting of feature 59
+....
+........
+__Feature found!
+_____ ... which took 128.727912 
+Now updating the Gram Matrix
+Update successfull - in 234.833973 
+ ------> continue!
+___________________
+Starting extracting of feature 60
+....
+........
+__Feature found!
+_____ ... which took 128.721943 
+Now updating the Gram Matrix
+Update successfull - in 245.579021 
+ ------> continue!
+___________________
+Starting extracting of feature 61
+....
+........
+__Feature found!
+_____ ... which took 128.301440 
+Now updating the Gram Matrix
+Update successfull - in 251.901945 
+ ------> continue!
+___________________
+Starting extracting of feature 62
+....
+........
+__Feature found!
+_____ ... which took 128.231701 
+Now updating the Gram Matrix
+Update successfull - in 222.571120 
+ ------> continue!
+___________________
+Starting extracting of feature 63
+....
+........
+__Feature found!
+_____ ... which took 128.455354 
+Now updating the Gram Matrix
+Update successfull - in 216.614820 
+ ------> continue!
+___________________
+Starting extracting of feature 64
+....
+........
+__Feature found!
+_____ ... which took 129.047620 
+Now updating the Gram Matrix
+Update successfull - in 229.636178 
+ ------> continue!
+___________________
+Starting extracting of feature 65
+....
+........
+__Feature found!
+_____ ... which took 129.025733 
+Now updating the Gram Matrix
+Update successfull - in 215.669466 
+ ------> continue!
+___________________
+Starting extracting of feature 66
+....
+........
+__Feature found!
+_____ ... which took 129.434978 
+Now updating the Gram Matrix
+Update successfull - in 196.109819 
+ ------> continue!
+___________________
+Starting extracting of feature 67
+....
+........
+__Feature found!
+_____ ... which took 129.810560 
+Now updating the Gram Matrix
+Update successfull - in 228.409493 
+ ------> continue!
+___________________
+Starting extracting of feature 68
+....
+........
+__Feature found!
+_____ ... which took 130.061394 
+Now updating the Gram Matrix
+Update successfull - in 223.410950 
+ ------> continue!
+___________________
+Starting extracting of feature 69
+....
+........
+__Feature found!
+_____ ... which took 130.343332 
+Now updating the Gram Matrix
+Update successfull - in 233.502526 
+ ------> continue!
+___________________
+Starting extracting of feature 70
+....
+........
+__Feature found!
+_____ ... which took 130.456372 
+Now updating the Gram Matrix
+Update successfull - in 192.589046 
+ ------> continue!
+___________________
+Starting extracting of feature 71
+....
+........
+__Feature found!
+_____ ... which took 131.123885 
+Now updating the Gram Matrix
+Update successfull - in 245.791113 
+ ------> continue!
+___________________
+Starting extracting of feature 72
+....
+........
+__Feature found!
+_____ ... which took 130.762776 
+Now updating the Gram Matrix
+Update successfull - in 260.247394 
+ ------> continue!
+___________________
+Starting extracting of feature 73
+....
+........
+__Feature found!
+_____ ... which took 130.705637 
+Now updating the Gram Matrix
+Update successfull - in 246.397356 
+ ------> continue!
+___________________
+Starting extracting of feature 74
+....
+........
+__Feature found!
+_____ ... which took 130.833134 
+Now updating the Gram Matrix
+Update successfull - in 218.146296 
+ ------> continue!
+___________________
+Starting extracting of feature 75
+....
+........
+__Feature found!
+_____ ... which took 131.073329 
+Now updating the Gram Matrix
+Update successfull - in 260.329926 
+ ------> continue!
+___________________
+Starting extracting of feature 76
+....
+........
+__Feature found!
+_____ ... which took 130.831018 
+Now updating the Gram Matrix
+Update successfull - in 261.800398 
+ ------> continue!
+___________________
+Starting extracting of feature 77
+....
+........
+__Feature found!
+_____ ... which took 130.786114 
+Now updating the Gram Matrix
+Update successfull - in 262.770660 
+ ------> continue!
+___________________
+Starting extracting of feature 78
+....
+........
+__Feature found!
+_____ ... which took 130.546044 
+Now updating the Gram Matrix
+Update successfull - in 257.748748 
+ ------> continue!
+___________________
+Starting extracting of feature 79
+....
+........
+__Feature found!
+_____ ... which took 130.686143 
+Now updating the Gram Matrix
+Update successfull - in 263.132582 
+ ------> continue!
+___________________
+Starting extracting of feature 80
+....
+........
+__Feature found!
+_____ ... which took 130.374735 
+Now updating the Gram Matrix
+Update successfull - in 240.217024 
+ ------> continue!
+___________________
+Starting extracting of feature 81
+....
+........
+__Feature found!
+_____ ... which took 130.546553 
+Now updating the Gram Matrix
+Update successfull - in 198.019063 
+ ------> continue!
+___________________
+Starting extracting of feature 82
+....
+........
+__Feature found!
+_____ ... which took 131.111838 
+Now updating the Gram Matrix
+Update successfull - in 263.465942 
+ ------> continue!
+___________________
+Starting extracting of feature 83
+....
+........
+__Feature found!
+_____ ... which took 130.961954 
+Now updating the Gram Matrix
+Update successfull - in 260.746118 
+ ------> continue!
+___________________
+Starting extracting of feature 84
+....
+........
+__Feature found!
+_____ ... which took 130.971690 
+Now updating the Gram Matrix
+Update successfull - in 236.187674 
+ ------> continue!
+___________________
+Starting extracting of feature 85
+....
+........
+__Feature found!
+_____ ... which took 131.007543 
+Now updating the Gram Matrix
+Update successfull - in 219.016352 
+ ------> continue!
+___________________
+Starting extracting of feature 86
+....
+........
+__Feature found!
+_____ ... which took 131.074270 
+Now updating the Gram Matrix
+Update successfull - in 249.072296 
+ ------> continue!
+___________________
+Starting extracting of feature 87
+....
+........
+__Feature found!
+_____ ... which took 131.022678 
+Now updating the Gram Matrix
+Update successfull - in 259.766309 
+ ------> continue!
+___________________
+Starting extracting of feature 88
+....
+........
+__Feature found!
+_____ ... which took 130.765359 
+Now updating the Gram Matrix
+Update successfull - in 202.358512 
+ ------> continue!
+___________________
+Starting extracting of feature 89
+....
+........
+__Feature found!
+_____ ... which took 131.328837 
+Now updating the Gram Matrix
+Update successfull - in 238.855493 
+ ------> continue!
+___________________
+Starting extracting of feature 90
+....
+........
+__Feature found!
+_____ ... which took 131.501726 
+Now updating the Gram Matrix
+Update successfull - in 238.550025 
+ ------> continue!
+___________________
+Starting extracting of feature 91
+....
+........
+__Feature found!
+_____ ... which took 131.765856 
+Now updating the Gram Matrix
+Update successfull - in 242.641906 
+ ------> continue!
+___________________
+Starting extracting of feature 92
+....
+........
+__Feature found!
+_____ ... which took 131.903646 
+Now updating the Gram Matrix
+Update successfull - in 250.179507 
+ ------> continue!
+___________________
+Starting extracting of feature 93
+....
+........
+__Feature found!
+_____ ... which took 131.947343 
+Now updating the Gram Matrix
+Update successfull - in 237.253752 
+ ------> continue!
+___________________
+Starting extracting of feature 94
+....
+........
+__Feature found!
+_____ ... which took 132.259764 
+Now updating the Gram Matrix
+Update successfull - in 264.976190 
+ ------> continue!
+___________________
+Starting extracting of feature 95
+....
+........
+__Feature found!
+_____ ... which took 132.401189 
+Now updating the Gram Matrix
+Update successfull - in 253.778676 
+ ------> continue!
+___________________
+Starting extracting of feature 96
+....
+........
+__Feature found!
+_____ ... which took 132.250338 
+Now updating the Gram Matrix
+Update successfull - in 242.861820 
+ ------> continue!
+___________________
+Starting extracting of feature 97
+....
+........
+__Feature found!
+_____ ... which took 132.539623 
+Now updating the Gram Matrix
+Update successfull - in 261.123529 
+ ------> continue!
+___________________
+Starting extracting of feature 98
+....
+........
+__Feature found!
+_____ ... which took 132.445600 
+Now updating the Gram Matrix
+Update successfull - in 249.069628 
+ ------> continue!
+___________________
+Starting extracting of feature 99
+....
+........
+__Feature found!
+_____ ... which took 132.632956 
+Now updating the Gram Matrix
+Update successfull - in 225.043621 
+ ------> continue!
+___________________
+Starting extracting of feature 100
+....
+........
+__Feature found!
+_____ ... which took 132.790734 
+Now updating the Gram Matrix
+Update successfull - in 224.308387 
+ ------> continue!
+___________________
+Starting extracting of feature 101
+....
+........
+__Feature found!
+_____ ... which took 132.935877 
+Now updating the Gram Matrix
+Update successfull - in 237.171927 
+ ------> continue!
+___________________
+Starting extracting of feature 102
+....
+........
+__Feature found!
+_____ ... which took 133.295580 
+Now updating the Gram Matrix
+Update successfull - in 240.455619 
+ ------> continue!
+___________________
+Starting extracting of feature 103
+....
+........
+__Feature found!
+_____ ... which took 133.307779 
+Now updating the Gram Matrix
+Update successfull - in 224.799148 
+ ------> continue!
+___________________
+Starting extracting of feature 104
+....
+........
+__Feature found!
+_____ ... which took 133.733625 
+Now updating the Gram Matrix
+Update successfull - in 267.819796 
+ ------> continue!
+___________________
+Starting extracting of feature 105
+....
+........
+__Feature found!
+_____ ... which took 133.495514 
+Now updating the Gram Matrix
+Update successfull - in 267.990094 
+ ------> continue!
+___________________
+Starting extracting of feature 106
+....
+........
+__Feature found!
+_____ ... which took 133.535023 
+Now updating the Gram Matrix
+Update successfull - in 246.542234 
+ ------> continue!
+___________________
+Starting extracting of feature 107
+....
+........
+__Feature found!
+_____ ... which took 133.347396 
+Now updating the Gram Matrix
+Update successfull - in 263.416034 
+ ------> continue!
+___________________
+Starting extracting of feature 108
+....
+........
+__Feature found!
+_____ ... which took 133.524043 
+Now updating the Gram Matrix
+Update successfull - in 258.142879 
+ ------> continue!
+___________________
+Starting extracting of feature 109
+....
+........
+__Feature found!
+_____ ... which took 133.502966 
+Now updating the Gram Matrix
+Update successfull - in 240.285488 
+ ------> continue!
+___________________
+Starting extracting of feature 110
+....
+........
+__Feature found!
+_____ ... which took 133.798921 
+Now updating the Gram Matrix
+Update successfull - in 255.396388 
+ ------> continue!
+___________________
+Starting extracting of feature 111
+....
+........
+__Feature found!
+_____ ... which took 133.859775 
+Now updating the Gram Matrix
+Update successfull - in 236.066265 
+ ------> continue!
+___________________
+Starting extracting of feature 112
+....
+........
+__Feature found!
+_____ ... which took 134.277269 
+Now updating the Gram Matrix
+Update successfull - in 246.707641 
+ ------> continue!
+___________________
+Starting extracting of feature 113
+....
+........
+__Feature found!
+_____ ... which took 134.144875 
+Now updating the Gram Matrix
+Update successfull - in 255.768198 
+ ------> continue!
+___________________
+Starting extracting of feature 114
+....
+........
+__Feature found!
+_____ ... which took 134.270927 
+Now updating the Gram Matrix
+Update successfull - in 261.562951 
+ ------> continue!
+___________________
+Starting extracting of feature 115
+....
+........
+__Feature found!
+_____ ... which took 134.136345 
+Now updating the Gram Matrix
+Update successfull - in 267.949996 
+ ------> continue!
+___________________
+Starting extracting of feature 116
+....
+........
+__Feature found!
+_____ ... which took 134.198760 
+Now updating the Gram Matrix
+Update successfull - in 271.173122 
+ ------> continue!
+___________________
+Starting extracting of feature 117
+....
+........
+__Feature found!
+_____ ... which took 134.115471 
+Now updating the Gram Matrix
+Update successfull - in 245.517976 
+ ------> continue!
+___________________
+Starting extracting of feature 118
+....
+........
+__Feature found!
+_____ ... which took 134.568525 
+Now updating the Gram Matrix
+Update successfull - in 267.116252 
+ ------> continue!
+___________________
+Starting extracting of feature 119
+....
+........
+__Feature found!
+_____ ... which took 134.367421 
+Now updating the Gram Matrix
+Update successfull - in 257.970751 
+ ------> continue!
+___________________
+Starting extracting of feature 120
+....
+........
+__Feature found!
+_____ ... which took 134.247591 
+Now updating the Gram Matrix
+Update successfull - in 268.755117 
+ ------> continue!
+___________________
+Starting extracting of feature 121
+....
+........
+__Feature found!
+_____ ... which took 134.337655 
+Now updating the Gram Matrix
+Update successfull - in 238.862127 
+ ------> continue!
+___________________
+Starting extracting of feature 122
+....
+........
+__Feature found!
+_____ ... which took 134.433981 
+Now updating the Gram Matrix
+Update successfull - in 269.422392 
+ ------> continue!
+___________________
+Starting extracting of feature 123
+....
+........
+__Feature found!
+_____ ... which took 134.476558 
+Now updating the Gram Matrix
+Update successfull - in 241.509886 
+ ------> continue!
+___________________
+Starting extracting of feature 124
+....
+........
+__Feature found!
+_____ ... which took 134.668471 
+Now updating the Gram Matrix
+Update successfull - in 256.759331 
+ ------> continue!
+___________________
+Starting extracting of feature 125
+....
+........
+__Feature found!
+_____ ... which took 134.562030 
+Now updating the Gram Matrix
+Update successfull - in 270.772270 
+ ------> continue!
+___________________
+Starting extracting of feature 126
+....
+........
+__Feature found!
+_____ ... which took 134.570447 
+Now updating the Gram Matrix
+Update successfull - in 230.909079 
+ ------> continue!
+___________________
+Starting extracting of feature 127
+....
+........
+__Feature found!
+_____ ... which took 134.871412 
+Now updating the Gram Matrix
+Update successfull - in 233.934704 
+ ------> continue!
+___________________
+Starting extracting of feature 128
+....
+........
+__Feature found!
+_____ ... which took 135.200158 
+Now updating the Gram Matrix
+Update successfull - in 272.821342 
+ ------> continue!
+___________________
+Starting extracting of feature 129
+....
+........
+__Feature found!
+_____ ... which took 135.091121 
+Now updating the Gram Matrix
+Update successfull - in 271.589134 
+ ------> continue!
+___________________
+Starting extracting of feature 130
+....
+........
+__Feature found!
+_____ ... which took 135.025946 
+Now updating the Gram Matrix
+Update successfull - in 270.188931 
+ ------> continue!
+___________________
+Starting extracting of feature 131
+....
+........
+__Feature found!
+_____ ... which took 134.862974 
+Now updating the Gram Matrix
+Update successfull - in 268.029547 
+ ------> continue!
+___________________
+Starting extracting of feature 132
+....
+........
+__Feature found!
+_____ ... which took 134.843622 
+Now updating the Gram Matrix
+Update successfull - in 273.328148 
+ ------> continue!
+___________________
+Starting extracting of feature 133
+....
+........
+__Feature found!
+_____ ... which took 135.099199 
+Now updating the Gram Matrix
+Update successfull - in 246.758235 
+ ------> continue!
+___________________
+Starting extracting of feature 134
+....
+........
+__Feature found!
+_____ ... which took 135.161492 
+Now updating the Gram Matrix
+Update successfull - in 257.303311 
+ ------> continue!
+___________________
+Starting extracting of feature 135
+....
+........
+__Feature found!
+_____ ... which took 135.261401 
+Now updating the Gram Matrix
+Update successfull - in 269.896804 
+ ------> continue!
+___________________
+Starting extracting of feature 136
+....
+........
+__Feature found!
+_____ ... which took 135.278775 
+Now updating the Gram Matrix
+Update successfull - in 275.229472 
+ ------> continue!
+___________________
+Starting extracting of feature 137
+....
+........
+__Feature found!
+_____ ... which took 135.362561 
+Now updating the Gram Matrix
+Update successfull - in 274.078280 
+ ------> continue!
+___________________
+Starting extracting of feature 138
+....
+........
+__Feature found!
+_____ ... which took 134.985442 
+Now updating the Gram Matrix
+Update successfull - in 271.405126 
+ ------> continue!
+___________________
+Starting extracting of feature 139
+....
+........
+__Feature found!
+_____ ... which took 135.222708 
+Now updating the Gram Matrix
+Update successfull - in 263.650885 
+ ------> continue!
+___________________
+Starting extracting of feature 140
+....
+........
+__Feature found!
+_____ ... which took 135.053665 
+Now updating the Gram Matrix
+Update successfull - in 272.304166 
+ ------> continue!
+___________________
+Starting extracting of feature 141
+....
+........
+__Feature found!
+_____ ... which took 135.064827 
+Now updating the Gram Matrix
+Update successfull - in 275.560182 
+ ------> continue!
+___________________
+Starting extracting of feature 142
+....
+........
+__Feature found!
+_____ ... which took 134.886644 
+Now updating the Gram Matrix
+Update successfull - in 266.506353 
+ ------> continue!
+___________________
+Starting extracting of feature 143
+....
+........
+__Feature found!
+_____ ... which took 134.868821 
+Now updating the Gram Matrix
+Update successfull - in 261.666541 
+ ------> continue!
+___________________
+Starting extracting of feature 144
+....
+........
+__Feature found!
+_____ ... which took 134.860195 
+Now updating the Gram Matrix
+Update successfull - in 261.732998 
+ ------> continue!
+___________________
+Starting extracting of feature 145
+....
+........
+__Feature found!
+_____ ... which took 134.848343 
+Now updating the Gram Matrix
+Update successfull - in 271.508210 
+ ------> continue!
+___________________
+Starting extracting of feature 146
+....
+........
+__Feature found!
+_____ ... which took 135.018186 
+Now updating the Gram Matrix
+Update successfull - in 270.640306 
+ ------> continue!
+___________________
+Starting extracting of feature 147
+....
+........
+__Feature found!
+_____ ... which took 135.060274 
+Now updating the Gram Matrix
+Update successfull - in 275.543377 
+ ------> continue!
+___________________
+Starting extracting of feature 148
+....
+........
+__Feature found!
+_____ ... which took 135.143160 
+Now updating the Gram Matrix
+Update successfull - in 254.977707 
+ ------> continue!
+___________________
+Starting extracting of feature 149
+....
+........
+__Feature found!
+_____ ... which took 134.923107 
+Now updating the Gram Matrix
+Update successfull - in 271.103675 
+ ------> continue!
+___________________
+Starting extracting of feature 150
+....
+........
+__Feature found!
+_____ ... which took 134.862186 
+Now updating the Gram Matrix
+Update successfull - in 253.471047 
+ ------> continue!
+___________________
+Starting extracting of feature 151
+....
+........
+__Feature found!
+_____ ... which took 135.014074 
+Now updating the Gram Matrix
+Update successfull - in 277.642580 
+ ------> continue!
+___________________
+Starting extracting of feature 152
+....
+........
+__Feature found!
+_____ ... which took 135.075285 
+Now updating the Gram Matrix
+Update successfull - in 272.365840 
+ ------> continue!
+___________________
+Starting extracting of feature 153
+....
+........
+__Feature found!
+_____ ... which took 134.925575 
+Now updating the Gram Matrix
+Update successfull - in 255.450945 
+ ------> continue!
+___________________
+Starting extracting of feature 154
+....
+........
+__Feature found!
+_____ ... which took 135.105485 
+Now updating the Gram Matrix
+Update successfull - in 247.930689 
+ ------> continue!
+___________________
+Starting extracting of feature 155
+....
+........
+__Feature found!
+_____ ... which took 135.315067 
+Now updating the Gram Matrix
+Update successfull - in 252.898647 
+ ------> continue!
+___________________
+Starting extracting of feature 156
+....
+........
+__Feature found!
+_____ ... which took 135.327677 
+Now updating the Gram Matrix
+Update successfull - in 276.873575 
+ ------> continue!
+___________________
+Starting extracting of feature 157
+....
+........
+__Feature found!
+_____ ... which took 135.535388 
+Now updating the Gram Matrix
+Update successfull - in 269.441138 
+ ------> continue!
+___________________
+Starting extracting of feature 158
+....
+........
+__Feature found!
+_____ ... which took 135.443134 
+Now updating the Gram Matrix
+Update successfull - in 276.138939 
+ ------> continue!
+___________________
+Starting extracting of feature 159
+....
+........
+__Feature found!
+_____ ... which took 135.144060 
+Now updating the Gram Matrix
+Update successfull - in 263.679009 
+ ------> continue!
+___________________
+Starting extracting of feature 160
+....
+........
+__Feature found!
+_____ ... which took 135.432660 
+Now updating the Gram Matrix
+Update successfull - in 264.354183 
+ ------> continue!
+___________________
+Starting extracting of feature 161
+....
+........
+__Feature found!
+_____ ... which took 135.479277 
+Now updating the Gram Matrix
+Update successfull - in 269.309536 
+ ------> continue!
+___________________
+Starting extracting of feature 162
+....
+........
+__Feature found!
+_____ ... which took 135.579691 
+Now updating the Gram Matrix
+Update successfull - in 276.395853 
+ ------> continue!
+___________________
+Starting extracting of feature 163
+....
+........
+__Feature found!
+_____ ... which took 135.658474 
+Now updating the Gram Matrix
+Update successfull - in 254.884708 
+ ------> continue!
+___________________
+Starting extracting of feature 164
+....
+........
+__Feature found!
+_____ ... which took 135.786534 
+Now updating the Gram Matrix
+Update successfull - in 275.012149 
+ ------> continue!
+___________________
+Starting extracting of feature 165
+....
+........
+__Feature found!
+_____ ... which took 135.753246 
+Now updating the Gram Matrix
+Update successfull - in 266.038567 
+ ------> continue!
+___________________
+Starting extracting of feature 166
+....
+........
+__Feature found!
+_____ ... which took 135.627808 
+Now updating the Gram Matrix
+Update successfull - in 278.322650 
+ ------> continue!
+___________________
+Starting extracting of feature 167
+....
+........
+__Feature found!
+_____ ... which took 135.702741 
+Now updating the Gram Matrix
+Update successfull - in 240.138678 
+ ------> continue!
+___________________
+Starting extracting of feature 168
+....
+........
+__Feature found!
+_____ ... which took 136.006955 
+Now updating the Gram Matrix
+Update successfull - in 280.735593 
+ ------> continue!
+___________________
+Starting extracting of feature 169
+....
+........
+__Feature found!
+_____ ... which took 135.954086 
+Now updating the Gram Matrix
+Update successfull - in 281.018729 
+ ------> continue!
+___________________
+Starting extracting of feature 170
+....
+........
+__Feature found!
+_____ ... which took 135.909838 
+Now updating the Gram Matrix
+Update successfull - in 278.128078 
+ ------> continue!
+___________________
+Starting extracting of feature 171
+....
+........
+__Feature found!
+_____ ... which took 135.877405 
+Now updating the Gram Matrix
+Update successfull - in 274.066849 
+ ------> continue!
+___________________
+Starting extracting of feature 172
+....
+........
+__Feature found!
+_____ ... which took 135.873318 
+Now updating the Gram Matrix
+Update successfull - in 253.481221 
+ ------> continue!
+___________________
+Starting extracting of feature 173
+....
+........
+__Feature found!
+_____ ... which took 135.952490 
+Now updating the Gram Matrix
+Update successfull - in 279.544012 
+ ------> continue!
+___________________
+Starting extracting of feature 174
+....
+........
+__Feature found!
+_____ ... which took 136.122294 
+Now updating the Gram Matrix
+Update successfull - in 270.160696 
+ ------> continue!
+___________________
+Starting extracting of feature 175
+....
+........
+__Feature found!
+_____ ... which took 135.952189 
+Now updating the Gram Matrix
+Update successfull - in 280.323897 
+ ------> continue!
+___________________
+Starting extracting of feature 176
+....
+........
+__Feature found!
+_____ ... which took 135.731591 
+Now updating the Gram Matrix
+Update successfull - in 279.921821 
+ ------> continue!
+___________________
+Starting extracting of feature 177
+....
+........
+__Feature found!
+_____ ... which took 135.879600 
+Now updating the Gram Matrix
+Update successfull - in 282.609848 
+ ------> continue!
+___________________
+Starting extracting of feature 178
+....
+........
+__Feature found!
+_____ ... which took 135.765015 
+Now updating the Gram Matrix
+Update successfull - in 268.847420 
+ ------> continue!
+___________________
+Starting extracting of feature 179
+....
+........
+__Feature found!
+_____ ... which took 135.609882 
+Now updating the Gram Matrix
+Update successfull - in 282.183104 
+ ------> continue!
+___________________
+Starting extracting of feature 180
+....
+........
+__Feature found!
+_____ ... which took 135.511786 
+Now updating the Gram Matrix
+Update successfull - in 268.884419 
+ ------> continue!
+___________________
+Starting extracting of feature 181
+....
+........
+__Feature found!
+_____ ... which took 135.548173 
+Now updating the Gram Matrix
+Update successfull - in 254.247974 
+ ------> continue!
+___________________
+Starting extracting of feature 182
+....
+........
+__Feature found!
+_____ ... which took 135.708854 
+Now updating the Gram Matrix
+Update successfull - in 274.907131 
+ ------> continue!
+___________________
+Starting extracting of feature 183
+....
+........
+__Feature found!
+_____ ... which took 135.902365 
+Now updating the Gram Matrix
+Update successfull - in 283.949502 
+ ------> continue!
+___________________
+Starting extracting of feature 184
+....
+........
+__Feature found!
+_____ ... which took 135.720004 
+Now updating the Gram Matrix
+Update successfull - in 281.748277 
+ ------> continue!
+___________________
+Starting extracting of feature 185
+....
+........
+__Feature found!
+_____ ... which took 135.568438 
+Now updating the Gram Matrix
+Update successfull - in 280.434383 
+ ------> continue!
+___________________
+Starting extracting of feature 186
+....
+........
+__Feature found!
+_____ ... which took 135.654017 
+Now updating the Gram Matrix
+Update successfull - in 283.087415 
+ ------> continue!
+___________________
+Starting extracting of feature 187
+....
+........
+__Feature found!
+_____ ... which took 135.768106 
+Now updating the Gram Matrix
+Update successfull - in 264.578137 
+ ------> continue!
+___________________
+Starting extracting of feature 188
+....
+........
+__Feature found!
+_____ ... which took 135.719983 
+Now updating the Gram Matrix
+Update successfull - in 263.680007 
+ ------> continue!
+___________________
+Starting extracting of feature 189
+....
+........
+__Feature found!
+_____ ... which took 135.652227 
+Now updating the Gram Matrix
+Update successfull - in 283.994472 
+ ------> continue!
+___________________
+Starting extracting of feature 190
+....
+........
+__Feature found!
+_____ ... which took 135.761393 
+Now updating the Gram Matrix
+Update successfull - in 283.143332 
+ ------> continue!
+___________________
+Starting extracting of feature 191
+....
+........
+__Feature found!
+_____ ... which took 135.682515 
+Now updating the Gram Matrix
+Update successfull - in 281.471273 
+ ------> continue!
+___________________
+Starting extracting of feature 192
+....
+........
+__Feature found!
+_____ ... which took 135.553343 
+Now updating the Gram Matrix
+Update successfull - in 283.160444 
+ ------> continue!
+___________________
+Starting extracting of feature 193
+....
+........
+__Feature found!
+_____ ... which took 135.717685 
+Now updating the Gram Matrix
+Update successfull - in 282.834373 
+ ------> continue!
+___________________
+Starting extracting of feature 194
+....
+........
+__Feature found!
+_____ ... which took 134.896976 
+Now updating the Gram Matrix
+Update successfull - in 254.023539 
+ ------> continue!
+___________________
+Starting extracting of feature 195
+....
+........
+__Feature found!
+_____ ... which took 135.273719 
+Now updating the Gram Matrix
+Update successfull - in 284.468832 
+ ------> continue!
+___________________
+Starting extracting of feature 196
+....
+........
+__Feature found!
+_____ ... which took 135.158462 
+Now updating the Gram Matrix
+Update successfull - in 251.374882 
+ ------> continue!
+___________________
+Starting extracting of feature 197
+....
+........
+__Feature found!
+_____ ... which took 135.355819 
+Now updating the Gram Matrix
+Update successfull - in 262.446181 
+ ------> continue!
+___________________
+Starting extracting of feature 198
+....
+........
+__Feature found!
+_____ ... which took 135.579149 
+Now updating the Gram Matrix
+Update successfull - in 278.671425 
+ ------> continue!
+___________________
+Starting extracting of feature 199
+....
+........
+__Feature found!
+_____ ... which took 135.651420 
+Now updating the Gram Matrix
+Update successfull - in 282.951763 
+ ------> continue!
+___________________
+Starting extracting of feature 200
+....
+........
+__Feature found!
+_____ ... which took 135.544220 
+__________
+It took that many seconds to compute the data with AKFA: 72838.301176
+__________
+

@@ -1,0 +1,63 @@
+The read file contains 10000 samples points and  545333 features 
+Successfully found components in file
+(200, 10000)
+Start training
+Classifier prepared
+Fitting the classifier to data successful in 9.677946
+{'kernel': 'rbf', 'C': 1.0, 'verbose': False, 'probability': True, 'degree': 3, 'shrinking': True, 'max_iter': -1, 'tol': 0.1, 'cache_size': 200, 'coef0': 0.0, 'gamma': 0.0, 'class_weight': None}
+Area under the ROC curve for NORMAL LEARNING: 0.964537
+________
+OK, now do the same thing for projected data!
+________
+START FOR 50 FEATURES
+.. read Matrix contains 50.000000 features
+ ... beginning to project components onto data set
+Finished for point 0 in 0.406165
+....... projecting finished!
+.. read Matrix contains 50.000000 features
+ ... beginning to project components onto data set
+Finished for point 0 in 0.435994
+....... projecting finished!
+Classifier prepared
+Fitting the classifier to data successful in 6.462160
+{'kernel': 'rbf', 'C': 1.0, 'verbose': False, 'probability': True, 'degree': 3, 'shrinking': True, 'max_iter': -1, 'tol': 0.1, 'cache_size': 200, 'coef0': 0.0, 'gamma': 0.0, 'class_weight': None}
+Area under the ROC curve with REDUCED DATA SET: 0.541568
+START FOR 50 FEATURES
+.. read Matrix contains 100.000000 features
+ ... beginning to project components onto data set
+Finished for point 0 in 0.830727
+....... projecting finished!
+.. read Matrix contains 100.000000 features
+ ... beginning to project components onto data set
+Finished for point 0 in 0.873145
+....... projecting finished!
+Classifier prepared
+Fitting the classifier to data successful in 10.216106
+{'kernel': 'rbf', 'C': 1.0, 'verbose': False, 'probability': True, 'degree': 3, 'shrinking': True, 'max_iter': -1, 'tol': 0.1, 'cache_size': 200, 'coef0': 0.0, 'gamma': 0.0, 'class_weight': None}
+Area under the ROC curve with REDUCED DATA SET: 0.404637
+START FOR 50 FEATURES
+.. read Matrix contains 150.000000 features
+ ... beginning to project components onto data set
+Finished for point 0 in 1.239798
+....... projecting finished!
+.. read Matrix contains 150.000000 features
+ ... beginning to project components onto data set
+Finished for point 0 in 1.318201
+....... projecting finished!
+Classifier prepared
+Fitting the classifier to data successful in 13.584238
+{'kernel': 'rbf', 'C': 1.0, 'verbose': False, 'probability': True, 'degree': 3, 'shrinking': True, 'max_iter': -1, 'tol': 0.1, 'cache_size': 200, 'coef0': 0.0, 'gamma': 0.0, 'class_weight': None}
+Area under the ROC curve with REDUCED DATA SET: 0.424276
+START FOR 50 FEATURES
+.. read Matrix contains 200.000000 features
+ ... beginning to project components onto data set
+Finished for point 0 in 1.661714
+....... projecting finished!
+.. read Matrix contains 200.000000 features
+ ... beginning to project components onto data set
+Finished for point 0 in 1.763483
+....... projecting finished!
+Classifier prepared
+Fitting the classifier to data successful in 17.087025
+{'kernel': 'rbf', 'C': 1.0, 'verbose': False, 'probability': True, 'degree': 3, 'shrinking': True, 'max_iter': -1, 'tol': 0.1, 'cache_size': 200, 'coef0': 0.0, 'gamma': 0.0, 'class_weight': None}
+Area under the ROC curve with REDUCED DATA SET: 0.474893
