@@ -7,12 +7,63 @@ from sklearn.datasets import load_svmlight_file
 from sklearn import svm
 from sklearn.metrics import roc_curve, auc
 import pylab as pl
-from AKFA import akfa, projectKernelComp, buildGramMatrix
+from AKFA import akfa, projectKernelComp, buildGramMatrix, kpca
 import numpy as np
 from scipy import sparse
 import Util
 import time
 from scipy.sparse import csr_matrix
+import cPickle
+import cProfile
+
+X_train, y_train = load_svmlight_file("./data/dataset_5/train")
+X_train = X_train[0:10000,:]
+y_train = y_train[0:10000]
+
+numberOfSamples = X_train.shape[0]
+numberOfFeatures = X_train.shape[1]
+
+X_test, y_test = load_svmlight_file("./data/dataset_5/test",n_features=numberOfFeatures)
+X_test = X_test[0:10000,:]
+y_test = y_test[0:10000]
+numberOfTestSamples = X_test.shape[0]
+
+#comps = akfa(X_train, 5000, 0.0, 4, 5, False, None)
+#np.save('./data/dataset_4/components.npy', comps)
+comps = np.load('./data/dataset_5/components.npy')
+print(comps.shape)
+# 1000 features
+train = projectKernelComp(X_train, comps[0:10000,:], 4)
+test = projectKernelComp(X_test, comps[0:10000,:], 4)
+cPickle.dump(train, open("./data/dataset_5/projData/train10000comps.pickle", "w"))
+cPickle.dump(test, open("./data/dataset_5/projData/test10000comps.pickle", "w"))
+# 1250 features
+train = projectKernelComp(X_train[0:5000,:], comps[0:5000,:], 4)
+test = projectKernelComp(X_test[0:5000,:], comps[0:5000,:], 4)
+cPickle.dump(train, open("./data/dataset_5/projData/train5000comps.pickle", "w"))
+cPickle.dump(test, open("./data/dataset_5/projData/test5000comps.pickle", "w"))
+# 1500 features
+#train = projectKernelComp(X_train, comps[0:1500,:], 4)
+#test = projectKernelComp(X_test, comps[0:1500,:], 4)
+#cPickle.dump(train, open("./data/dataset_4/projData/train1500comps.pickle", "w"))
+#cPickle.dump(test, open("./data/dataset_4/projData/test1500comps.pickle", "w"))
+# 1750 features
+#train = projectKernelComp(X_train, comps[0:1750,:], 4)
+#test = projectKernelComp(X_test, comps[0:1750,:], 4)
+#cPickle.dump(train, open("./data/dataset_4/projData/train1750comps.pickle", "w"))
+#cPickle.dump(test, open("./data/dataset_4/projData/test1750comps.pickle", "w"))
+# 2000 features
+#train = projectKernelComp(X_train, comps[0:2000,:], 4)
+#test = projectKernelComp(X_test, comps[0:2000,:], 4)
+#cPickle.dump(train, open("./data/dataset_4/projData/train2000comps.pickle", "w"))
+#cPickle.dump(test, open("./data/dataset_4/projData/test2000comps.pickle", "w"))
+
+
+
+
+exit()
+
+
 
 
 test = False
@@ -39,98 +90,100 @@ if test:
     print("The read file contains %d samples points and  %d features " % (numberOfSamples, numberOfFeatures))
     y = akfa(dataset=csr_matrix(x),n_features=2,delta=0.5,sigma=4,chunkSize=5,isMatrixGiven=True,K=K)
     exit()
-    x1 = data[:,0].todense()
-    y1 = data[:,1].todense()
+    #x1 = data[:,0].todense()
+    #y1 = data[:,1].todense()
     pl.figure(1)
-    pl.plot(x1[range(small)],y1[range(small)], "ro")
-    pl.plot(x1[range(small,small+med)],y1[range(small,small+med)], "bo")
-    pl.plot(x1[range(small+med,small+med+big)],y1[range(small+med,small+med+big)], "go")
+    #pl.plot(x1[range(small)],y1[range(small)], "ro")
+    #pl.plot(x1[range(small,small+med)],y1[range(small,small+med)], "bo")
+    #pl.plot(x1[range(small+med,small+med+big)],y1[range(small+med,small+med+big)], "go")
     pl.show()
     
     exit()
     
 if not test:  
     
-<<<<<<< HEAD
-    X_train, y_train = load_svmlight_file("./data/dataset_2/train")
-    X_train = X_train[0:10000,:]
-    y_train = y_train[0:10000]
-=======
-    X_train, y_train = load_svmlight_file("./data/dataset_1/train")
-    X_train = X_train[0:10000,:]
-    y_train = y_train[10000]
->>>>>>> 8350844f0b1ce5d8ffc1ab6071114306f029eeac
+
+    X_train, y_train = load_svmlight_file("./data/dataset_3/train")
+    X_train = X_train[0:5000,:]
+    y_train = y_train[0:5000]
+
+    
+
     numberOfSamples = X_train.shape[0]
     numberOfFeatures = X_train.shape[1]
     
     
-<<<<<<< HEAD
-    X_test, y_test = load_svmlight_file("./data/dataset_2/test",n_features=numberOfFeatures)
-    X_test = X_test[0:10000,:]
-=======
-    X_test, y_test = load_svmlight_file("./data/dataset_1/test",n_features=numberOfFeatures)
-    X_test = X_test[0:10000,:]
-    y_test = y_test[0:10000]
->>>>>>> 8350844f0b1ce5d8ffc1ab6071114306f029eeac
-    numberOfTestSamples = X_test.shape[0]
-    y_test = y_test[0:10000]
-    print("The read file contains %d samples points and  %d features " % (numberOfSamples, numberOfFeatures))
-    
-    '''
-    # 1 - Calculate Gram Matrix
-    # 2 - Calculate Components
-    # 3 - Project Components
-    # 4 - start learning
-    options = 1
-    '''
-    #if options == 1:
-<<<<<<< HEAD
-    mat = buildGramMatrix(dataset = X_train, n_samples=numberOfSamples, chunkSize = 4, sigma = 4)
-    np.save('./data/dataset_2/GramMatrix', mat)
-    #elif options == 2:
-    comps = akfa(X_train,200,0.0,4,3,isMatrixGiven=True,K=np.load('./data/dataset_2/GramMatrix.npy'))
-    np.save('./data/dataset_2/components', comps)
-=======
-    #mat = buildGramMatrix(dataset = X_train, n_samples=numberOfSamples, chunkSize = 3, sigma = 4)
-    #np.save('./data/dataset_1/GramMatrix', mat)
-    #elif options == 2:
-    #comps = akfa(X_train,200,0.0,4,3,isMatrixGiven=True,K=np.load('./data/dataset_1/GramMatrix.npy'))
-    comps = akfa(X_train,500,0.0,4,3,isMatrixGiven=False)
-    #np.save('./data/dataset_1/components', comps)
-    
->>>>>>> 8350844f0b1ce5d8ffc1ab6071114306f029eeac
-    
-    print(".....")
-    print("Re-projecting Test Data set")
-    
-    #testData = projectKernelComp(X_test, comps, numberOfTestSamples, 10, 4)
-    
-    print("Done projecting, start training, damn it!")
-<<<<<<< HEAD
+
    
-    '''
-=======
+
+    X_test, y_test = load_svmlight_file("./data/dataset_3/test",n_features=numberOfFeatures)
+    X_test = X_test[0:5000,:]
+    y_test = y_test[0:5000]
+
+    numberOfTestSamples = X_test.shape[0]
     
->>>>>>> 8350844f0b1ce5d8ffc1ab6071114306f029eeac
+    
+    
+    
+    
+    
+    
+
+    
+   
+    
+    #print("The read file contains %d samples points and  %d features " % (numberOfSamples, numberOfFeatures))
+    
+    
+    
+    #print("Start comparring AKFA and KPCA and AKCFA")
+    
+    #for i in range(0,5000,500):
+        #X_trainIn = X_train[0:(i+500),:]
+        #y_trainIn = y_train[0:(i+500)]
+        #akfaRes = akfa(X_trainIn, 100, 0.0, 4, 5, False, None)
+        #kpcaVec, kpcaEig = kpca(X_trainIn,100, 4, 5, False, None)
+        #akfaCutRes= akfa(X_trainIn, 100, 0.4, 4, 5, False, None)
+    
+    
+    #exit()
+    
+    
+    
+    
+
+   
+    
+
+    
+
     
     train = True
-<<<<<<< HEAD
-    comps = np.load('./data/dataset_2/components.npy')
-    print("Successfully found components in file")
-=======
-    
-    #print("Successfully found components in file")
->>>>>>> 8350844f0b1ce5d8ffc1ab6071114306f029eeac
+
+    comps = np.load('./data/dataset_3/components.npy')
     print(comps.shape)
-    if ( comps.shape[0] != 200):
+    if ( comps.shape[0] != 2000):
         print("ERROR")
         print(comps.shape)
         exit()
+    print("Successfully found components in file")
+    
+    train = np.fromfile('./data/dataset_3/dataTrain2000comps.npy')
+    test = np.load('./data/dataset_3/dataTest2000comps.npy')
+    
+    
+    print(train.shape)
+    
+    exit()
+    
+    #print("Successfully found components in file")
+
+    
     
     # Run classifier
     if train:
         print("Start training")
-        '''
+        
         # ----------------------------------------------------
         # first, specify classifier
         classifier = svm.SVC(C=1.0,kernel='rbf', probability=True, tol=0.1)
@@ -142,7 +195,7 @@ if not test:
         probas = classifier.predict_proba(X_test)
         print(classifier.get_params())
     
-        pl.show()
+        #pl.show()
         # Compute ROC curve and area the curve
         fpr, tpr, thresholds = roc_curve(y_test,probas[:,1])
         roc_auc = auc(fpr, tpr)
@@ -164,27 +217,25 @@ if not test:
         print("OK, now do the same thing for projected data!")
         print("________")
         
-        # _______ TRAINING FOR REPORJECTED DATA ___________________________________________________________________________ features = 50
-        print("START FOR 50 FEATURES")
-        finalData = projectKernelComp(X_train, comps[0:50])
-        testData = projectKernelComp(X_test, comps[0:50])
+        # _______ TRAINING FOR REPORJECTED DATA ___________________________________________________________________________ features = 250
+        
         
         classifier = svm.SVC(C=1.0,kernel='rbf', probability=True, tol=0.1)
         print("Classifier prepared")
         timeCla = time.time()
-        classifier = classifier.fit(finalData, y_train)
+        classifier = classifier.fit(train, y_train)
         print("Fitting the classifier to data successful in %f" % (time.time()-timeCla))
         # now we can predict
-        probas = classifier.predict_proba(testData)
+        probas = classifier.predict_proba(test)
         print(classifier.get_params())
-    pl.show()
+        #pl.show()
         
         # Compute ROC curve and area the curve
         fpr, tpr, thresholds = roc_curve(y_test,probas[:,1])
         roc_auc = auc(fpr, tpr)
         print "Area under the ROC curve with REDUCED DATA SET: %f" % roc_auc
         pl.figure(1)
-        pl.title("ROC for projected learning with 50 features")
+        pl.title("ROC for projected learning with 250 features")
         # Plot ROC curve
         pl.clf()
         pl.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % roc_auc)
@@ -196,100 +247,6 @@ if not test:
         pl.title('Receiver operating characteristic example')
         pl.legend(loc="lower right")
         
-        # _______ TRAINING FOR REPORJECTED DATA ___________________________________________________________________________ features = 100
-        print("START FOR 50 FEATURES")
-        finalData = projectKernelComp(X_train, comps[0:100])
-        testData = projectKernelComp(X_test, comps[0:100])
-        
-        classifier = svm.SVC(C=1.0,kernel='rbf', probability=True, tol=0.1)
-        print("Classifier prepared")
-        timeCla = time.time()
-        classifier = classifier.fit(finalData, y_train)
-        print("Fitting the classifier to data successful in %f" % (time.time()-timeCla))
-        # now we can predict
-        probas = classifier.predict_proba(testData)
-        print(classifier.get_params())
-    
-        
-        # Compute ROC curve and area the curve
-        fpr, tpr, thresholds = roc_curve(y_test,probas[:,1])
-        roc_auc = auc(fpr, tpr)
-        print "Area under the ROC curve with REDUCED DATA SET: %f" % roc_auc
-        pl.figure(2)
-        pl.title("ROC for projected learning with 100 features")
-        # Plot ROC curve
-        pl.clf()
-        pl.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % roc_auc)
-    pl.show()
-        pl.xlim([0.0, 1.0])
-        pl.ylim([0.0, 1.0])
-        pl.xlabel('False Positive Rate')
-        pl.ylabel('True Positive Rate')
-        pl.title('Receiver operating characteristic example')
-        pl.legend(loc="lower right")
-        
-        # _______ TRAINING FOR REPORJECTED DATA ___________________________________________________________________________ features = 150
-        print("START FOR 50 FEATURES")
-        finalData = projectKernelComp(X_train, comps[0:150])
-        testData = projectKernelComp(X_test, comps[0:150])
-        
-        classifier = svm.SVC(C=1.0,kernel='rbf', probability=True, tol=0.1)
-        print("Classifier prepared")
-        timeCla = time.time()
-        classifier = classifier.fit(finalData, y_train)
-        print("Fitting the classifier to data successful in %f" % (time.time()-timeCla))
-        # now we can predict
-        probas = classifier.predict_proba(testData)
-        print(classifier.get_params())
-    
-        
-        # Compute ROC curve and area the curve
-        fpr, tpr, thresholds = roc_curve(y_test,probas[:,1])
-        roc_auc = auc(fpr, tpr)
-        print "Area under the ROC curve with REDUCED DATA SET: %f" % roc_auc
-        pl.figure(3)
-        pl.title("ROC for projected learning with 150 features")
-        # Plot ROC curve
-        pl.clf()
-        pl.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % roc_auc)
-    
-        pl.xlim([0.0, 1.0])
-        pl.ylim([0.0, 1.0])
-        pl.xlabel('False Positive Rate')
-        pl.ylabel('True Positive Rate')
-        pl.title('Receiver operating characteristic example')
-        pl.legend(loc="lower right")
-        '''
-        # _______ TRAINING FOR REPORJECTED DATA ___________________________________________________________________________ features = 200
-        print("START FOR 50 FEATURES")
-        finalData = projectKernelComp(X_train, comps)
-        testData = projectKernelComp(X_test, comps)
-        
-        classifier = svm.SVC(C=1.0,kernel='rbf', probability=True, tol=0.1)
-        print("Classifier prepared")
-        timeCla = time.time()
-        classifier = classifier.fit(finalData, y_train)
-        print("Fitting the classifier to data successful in %f" % (time.time()-timeCla))
-        # now we can predict
-        probas = classifier.predict_proba(testData)
-        print(classifier.get_params())
-    
-        
-        # Compute ROC curve and area the curve
-        fpr, tpr, thresholds = roc_curve(y_test,probas[:,1])
-        roc_auc = auc(fpr, tpr)
-        print "Area under the ROC curve with REDUCED DATA SET: %f" % roc_auc
-        #pl.figure(0)
-        pl.title("ROC for projected learning with 500 features")
-        # Plot ROC curve
-        pl.clf()
-        pl.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % roc_auc)
-    
-        pl.xlim([0.0, 1.0])
-        pl.ylim([0.0, 1.0])
-        pl.xlabel('False Positive Rate')
-        pl.ylabel('True Positive Rate')
-        pl.title('Receiver operating characteristic example')
-        pl.legend(loc="lower right")
         
         pl.savefig('res.png')
+        pl.show()
