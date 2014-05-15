@@ -17,6 +17,14 @@ from scipy.sparse.linalg import eigs as eigenvec
 from sklearn.metrics.pairwise import pairwise_distances as padis
 import copy
 # -----------------------------#
+def oldKernelMatrix(dataset, n_samples,chunkSize, sigma):
+    kernelMatrix = np.ones( (n_samples,n_samples), dtype=np.float32)
+    for i in range(n_samples):
+        for j in range(n_samples):
+            kernelMatrix[i,j] =  exp( - (np.linalg.norm(np.subtract(dataset[i,:], dataset[j,:])))**2 / (2*sigma*sigma))
+    
+    return kernelMatrix
+
 
 
 
@@ -54,7 +62,7 @@ def buildGramMatrix(dataset, n_samples,chunkSize, sigma):
     return kernelMatrix
 
 def projectKernelComp(dataset,comp,sigma=4):
-    """ Project the given data sets onto the given components.
+    """ Project the given data sets onto thK_COMP_SUCCESSe given components.
 
         Parameters
         ----------
@@ -77,14 +85,8 @@ def projectKernelComp(dataset,comp,sigma=4):
     numberOfFeatures = comp.shape[0]
     fData = sparse.lil_matrix( (numberOfDataPoints,numberOfFeatures),dtype = np.float16)
     for x in range(numberOfDataPoints):
-        timePro = time.time()
         for index in range(numberOfFeatures):
-            #print(comp[index].shape)
-            #print(exp( - padis(dataset, dataset[x,:],metric='euclidean')**2 / (2*sigma*sigma)).shape)
             fData[x,index] = np.dot(comp[index],exp( - padis(dataset, dataset[x,:],metric='euclidean')**2 / (2*sigma*sigma)))
-        if ( x == 0):
-            print("Finished for point %d in %f" %(x,time.time() - timePro))
-
     return fData.tocsr()
 
 
@@ -137,7 +139,7 @@ def akfa(dataset, n_features=2, delta = 0.0, sigma=4, chunkSize = 5,isMatrixGive
     n_dimensions = dataset.shape[1]
     if n_dimensions < n_features:
         raise ValueError("Can only extract n_dimensions features at maximum - trying to extract too many features")
-    if isMatrixGiven:
+    if isMatrixGiven == True:
         kernelMatrix = K
     else:
         kernelMatrix = buildGramMatrix(dataset,n_samples,chunkSize, sigma)
@@ -162,11 +164,13 @@ def akfa(dataset, n_features=2, delta = 0.0, sigma=4, chunkSize = 5,isMatrixGive
         if i == n_features-1:
             continue
         idxVec = copy.copy(kernelMatrix[:,idx])
+        tmpK = np.ones( (n_samples,n_samples), dtype=np.float32)
         for k in range(n_samples):
+            #for j in range(n_samples):
+                #tmpK[k,j] = K[k,j] - (K[j,idx]*K[k,idx])/K[idx,idx]
             fak = idxVec[k]/idxVec[idx]
             kernelMatrix[:,k] = np.subtract(kernelMatrix[:,k],idxVec*fak)
-        if (i%1000) == 0:
-            print("Done")
+        #K = tmpK
     return idx_vectors
 
 def kpca(dataset, n_features=2, sigma=4, chunkSize = 5,isMatrixGiven=False, K=None):
@@ -180,7 +184,7 @@ def kpca(dataset, n_features=2, sigma=4, chunkSize = 5,isMatrixGiven=False, K=No
         
         n_features: The number of features that are to 
             be extracted from the data setz
-            Default: 2
+            Default: 25
             
         sigma: Value used by the Gaussian Kernel
             Default: 4
