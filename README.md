@@ -11,6 +11,7 @@ Couple of notes:
 	- Scikit-learn (Python)
 	- Gnu Scientific Libraries (C)
    Please refer to the website of those toolkits for further information.
+3) The C-Code can be compiled using gcc -o akfa akfa.c -lgsl -lgslcblas -lm -pg -lrt
 
 
 
