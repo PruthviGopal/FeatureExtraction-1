@@ -22,6 +22,10 @@ from matplotlib import pyplot
 import pylab
 import random
 
+x = Util.gen_Circle(small = 100, med = 100, big = 200)
+np.savetxt("./test.txt", x)
+np.savetxt("./kernel.txt",buildGramMatrix(x, 400, 5, 4))
+exit()
 
 fig = pl.figure()
 ax = fig.add_subplot(111,projection='3d')
